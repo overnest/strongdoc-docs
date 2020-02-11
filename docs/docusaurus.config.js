@@ -1,27 +1,24 @@
 module.exports = {
   title: 'StrongDoc',
   tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'api.strongsalt.com',
   baseUrl: '/',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/SS_favicon.png',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
   themeConfig: {
+    algolia: {
+      apiKey: 'api-key',
+      indexName: 'strongdoc',
+      algoliaOptions: {}, // Optional, if provided by Algolia
+    },
     navbar: {
-      title: 'My Site',
+      title: '',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
-      links: [
-        {to: 'docs/doc1', label: 'Docs', position: 'left'},
-        {to: 'blog', label: 'Blog', position: 'left'},
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
+      links: [{search: true}],
     },
     footer: {
       style: 'dark',
@@ -30,25 +27,29 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
+              label: 'Getting Started',
               to: 'docs/doc1',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2',
+              label: 'Api Reference',
+              to: 'https://api.strongsalt.com/swagger',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Company',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Platform',
+              href: 'https://www.strongsalt.com/platform',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'News',
+              href: 'https://www.strongsalt.com/news',
+            },
+            {
+              label: 'About',
+              href: 'https://www.strongsalt.com/company',
             },
           ],
         },
@@ -56,21 +57,25 @@ module.exports = {
           title: 'Social',
           items: [
             {
-              label: 'Blog',
-              to: 'blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
-            {
               label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              to: 'https://twitter.com/getstrongsalt',
+            },
+            {
+              label: 'Reddit',
+              href: 'https://www.reddit.com/user/StrongSalt',
+            },
+            {
+              label: 'FaceBook',
+              href: 'https://www.facebook.com/strongsalt',
+            },
+            {
+              label: 'LinkedIn',
+              href: 'https://www.linkedin.com/company/strongsalt',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} StrongSalt, Inc.`,
     },
   },
   presets: [

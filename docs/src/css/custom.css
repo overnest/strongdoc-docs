@@ -22,3 +22,7 @@
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
 }
+
+.navbar__items .react-toggle {
+  display: none;
+}
