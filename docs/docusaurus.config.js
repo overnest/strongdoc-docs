@@ -1,8 +1,8 @@
 module.exports = {
   title: 'StrongDoc',
   tagline: 'The Privacy API',
-  url: 'https://api.strongsalt.com',
-  baseUrl: '/guide/',
+  url: 'https://docs.strongsalt.com',
+  baseUrl: '/',
   favicon: 'img/SS_favicon.png',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
