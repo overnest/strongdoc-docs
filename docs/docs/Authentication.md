@@ -6,18 +6,18 @@ To authenticate (so we know who you are) and authorize (so we know what you're a
 ```go
 import "github.com/strongdoc/client/go/api"
 
-adminID := "8253d03e-b24f-40e6-9838-fbc64b08b1fe"
-adminPassword := "password123"
-orgID := "63acb244-6575-4706-bfb3-6dc6616b4d69"
+var userID string = "myuserID"
+var password string = "password123"
+var orgID string = "myOrgId"
 
-token, err := api.Login(adminID, adminPassword, orgID)
+token, err := api.Login(userID, password, orgID)
 if err != nil {
-    log.Printf("Failed to log in: %s", err)
+    log.Printf("failed to log in: %s", err)
     os.Exit(1)
 }
 ```
 
-The `Login` function returns a `token`. Most requests following this *must* contain it.
+The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
 
 Once you log in, **keep your Bearer Token safe**, as anyone who has it
 will be authenticated to do anything that you can. For instance, do not share them in publically accessible areas such as Github or in client code.
@@ -30,6 +30,8 @@ Once you finish your session, make sure to `Logout`. This will retire the key fr
 
 ```go
 import "github.com/strongdoc/client/go/api"
+
+var token string = "myToken"
 
 err := api.Logout(token)
 if err != nil {
