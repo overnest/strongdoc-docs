@@ -6,6 +6,18 @@ Strongdoc offers an encryption service. No data is stored on Strongdoc. Note tha
 
 To encrypt a document, simply call it together with the filename and the payload.
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go Lang', value: 'go'},
+      {label: 'Python', value: 'py'}
+    ]}
+>
+<TabItem value="go">
+
 ```go
 import "github.com/strongdoc/client/go/api"
 
@@ -18,6 +30,16 @@ if err != nil {
     return
 }
 ```
+
+</TabItem>
+<TabItem value="py">
+
+```py
+print('Hello, world')
+```
+
+</TabItem>
+</Tabs>
 
 > Storage of your (encrypted) documents is also available with `UploadDocument`.
 
