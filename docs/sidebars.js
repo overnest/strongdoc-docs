@@ -7,8 +7,12 @@
 
 module.exports = {
   someSidebar: {
-    Docusaurus: ['doc1', 'doc2', 'doc3'],
-    "Parent Topic": ['doc4', 'doc5'],
-    Features: ['mdx'],
+    "Introduction": ['Getting Started'],
+    "Authentication": ['Authentication'],
+    "Documents": ['Encryption', 'Storage', 'Search', 'Sharing'],
+    "Primary Functions": ['Status'],
+    "Auxillary Functions": ['Configuration'],
+    "Billing": ['Billing'],
+    "Features": ['mdx'],
   },
 };
