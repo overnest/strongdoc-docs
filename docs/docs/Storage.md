@@ -12,36 +12,35 @@ from a file located locally in the same directory as the Go
 program being executed.
 
 ```go
-import (
-    "github.com/strongdoc/client/go/api"
-    "io/ioutil"
-)
+var filename string // set your filename here
+var fileBytes []byte
+var err error
+var docID string
 
-token, _ := api.Login(adminID, adminPassword, orgID)
-fileName := "CompanyIntro.txt"
-docBytes, _ := ioutil.ReadFile(filename)
-docKey := fileName
-uploadDocID, err := api.UploadDocument(token, documentKey, docBytes)
+fileBytes, err = ioutil.ReadFile(filename)
+docID, err = api.UploadDocument(token, filename, fileBytes)
 if err != nil {
-    log.Printf("Can not upload document: %s", err)
+    log.Printf("Can not upload document: %v", err)
     os.Exit(1)
 }
+fmt.Printf("Uploaded document, docID: [%s]", docID)
 ```
 
 ### Upload Document (Streaming)
 
-You may also stream the document, which you may want if your file is too big or if you want to stream the bytes on the fly. You must provide an io.Reader object (for instance, an Os.File).
+You may also stream the document, which you may want if your file is too big or if you want to stream the bytes on the fly. You must provide an io.Reader object (for instance, an os.File).
 
 ```go
-import (
-    "github.com/strongdoc/client/go/api"
-)
+var filename string // set your filename here
+var fileBytes []byte
+var err error
 
-uploadDocID, err := api.UploadDocumentStream(token, "myfile.pdf", pdfFile)
+docID, err := api.UploadDocumentStream(token, filename, fileBytes)
 if err != nil {
-    log.Printf("Can not upload document: %s", err)
+    log.Printf("Can not upload document: %v", err)
     os.Exit(1)
 }
+fmt.Printf("Uploaded document, docID: [%s]\n", docID)
 ```
 
 ## Downloading Documents
@@ -55,12 +54,16 @@ document.
 The file is returned as a byte slice containing the plaintext of the document.
 
 ```go
-fileBytes, err := api.DownloadDocument(token, uploadDocID)
-fmt.Printf("%v", downBytes)
+var docID string // use docID for the file you want
+var rcvdBytes []byte
+var err error
+
+rcvdBytes, err = api.DownloadDocument(token, docID)
 if err != nil {
-    log.Printf("Can not download document: %s", err)
-    return
+    log.Printf("Can not download document: %v", err)
+    os.Exit(1)
 }
+fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
 ```
 
 ### Download Document (Streaming)
@@ -72,12 +75,21 @@ The file download also offered as a streaming service, which you may want to do 
 When `Read()` is called on the stream, your document is 'lazily' decrypted via Strongsalt encrytion and downloaded, and the plaintext filling the buffer provided.
 
 ```go
-plainStream, err := DownloadDocumentStream(token, uploadDocID)
+var docID string // set docID of your file here
+var dataStream io.Reader
+var err error
+
+dataStream, err := DownloadDocumentStream(token, docID)
 buf := make([]byte, 1000)
-plaintext := make([]byte,0)
+rcvdBytes := make([]byte,0)
 for err == nil {
-    n, readErr := s.Read(buf)
+    n, readErr := dataStream.Read(buf)
+    if err != nil && err != io.EOF {
+        log.Printf("Can not download document: %v", err)
+        os.Exit(1)
+    }
     err = readErr
-    downDocBytes = append(downDocBytes, buf[:n]...)
+    rcvdBytes = append(rcvdBytes, buf[:n]...)
 }
+fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
 ```

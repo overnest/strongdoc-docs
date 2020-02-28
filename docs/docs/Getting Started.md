@@ -64,11 +64,11 @@ Do the following:
 import "github.com/strongdoc/client/go/api"
 
 // Replace the below values as appropriate
-orgName := "myOrg"
-orgAddr := "myAddr"
-adminName := "john-doe"
-adminPassword := "password123"
-adminEmail := "hello@strongsalt.com"
+var orgName string = "myOrg"
+var orgAddr string = "myAddr"
+var adminName string = "john-doe"
+var adminPassword string = "password123"
+var adminEmail string = "hello@strongsalt.com"
 
 orgID, adminID, err := api.RegisterOrganization(orgName, orgAddr, adminName, adminPassword, adminEmail)
 if err != nil {

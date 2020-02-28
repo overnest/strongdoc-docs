@@ -4,17 +4,17 @@ To authenticate (so we know who you are) and authorize (so we know what you're a
 
 
 ```go
-import "github.com/strongdoc/client/go/api"
-
-var userID string = "myuserID"
-var password string = "password123"
-var orgID string = "myOrgId"
+// set your credentials here
+var userID string
+var password string
+var orgID string
 
 token, err := api.Login(userID, password, orgID)
 if err != nil {
     log.Printf("failed to log in: %s", err)
     os.Exit(1)
 }
+fmt.Printf("Successfully logged in.\n")
 ```
 
 The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
@@ -29,13 +29,11 @@ Every method requires authentication except this one, `Login` and `RegisterOrgan
 Once you finish your session, make sure to `Logout`. This will retire the key from use.
 
 ```go
-import "github.com/strongdoc/client/go/api"
-
-var token string = "myToken"
+var token string // set your token here
 
 err := api.Logout(token)
 if err != nil {
-    log.Printf("Failed to log in: %s", err)
+    log.Printf("Failed to log out: %s\n", err)
     os.Exit(1)
 }
 ```

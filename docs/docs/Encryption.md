@@ -19,16 +19,18 @@ import TabItem from '@theme/TabItem';
 <TabItem value="go">
 
 ```go
-import "github.com/strongdoc/client/go/api"
+var filename string // set your filename here
+var fileBytes []byte
+var err error
+var ciphertext string
 
-var filename string = "myfile.pdf"
-var fileBytes []byte = ioutil.ReadFile(filename)
-
-encryptDocID, ciphertext, err := api.EncryptDocument(token, filename, fileBytes)
+fileBytes, err = ioutil.ReadFile(filename)
+docID, ciphertext, err := api.EncryptDocument(token, filename, fileBytes)
 if err != nil {
     log.Printf("Can not encrypt document: %s", err)
-    return
+    os.Exit(1)
 }
+fmt.Printf("Encrypted file, docID: [%s]", docID)
 ```
 
 </TabItem>
@@ -54,15 +56,17 @@ When `Read()` is called on the stream, your document is 'lazily' encrypted via S
 ```go
 import "github.com/strongdoc/client/go/api"
 
-var filename string = "myfile.pdf"
-var fileBytes []byte = ioutil.ReadFile(filename)
+var filename string // set your filename here
+var err error
+var fileBytes []byte
 var cipherStream io.Reader
-var docID string = "myDocID"
+var docID string
 
+fileBytes, err = ioutil.ReadFile(filename)
 cipherStream, docID, err := api.EncryptDocumentStream(token, filename, fileBytes)
 if err != nil {
     log.Printf("Can not encrypt document: %s", err)
-    return
+    os.Exit(1)
 }
 buf := make([]byte, 1000)
 ciphertext := make([]byte, 0)
@@ -71,6 +75,7 @@ for err != io.EOF {
     err = readErr
     ciphertext = append(ciphertext, buf[:n]...)
 }
+fmt.Printf("Encrypted file, docID: [%s]", docID)
 ```
 
 > We are also able to store your documents while ensuring that they're encrypted, implemented as a streaming protocol, with `UploadDocumentStream`.
@@ -86,15 +91,18 @@ To decrypt a document, simply call it together with the filename and the payload
 ```go
 import "github.com/strongdoc/client/go/api"
 
-var docID string = "myDocID"
-var ciphertext []byte
+var docID string // set docID of your file here
+var err error
+var ciphertext []byte // load ciphertext of your document here
 var cipherStream io.Reader
+var plaintext []byte
 
-decryptedBytes, err := DecryptDocument(token, docID, ciphertext)
+plaintext, err = DecryptDocument(token, docID, ciphertext)
 if err != nil {
     log.Printf("Can not decrypt document: %s", err)
-    return
+    os.Exit(1)
 }
+fmt.Printf("Received file, bytes: [%v]", plaintext)
 ```
 
 ### Decrypt Document (Streaming)
@@ -106,20 +114,28 @@ The decryption API is also offered as a streaming service, which you may want to
 When `Read()` is called on the stream, the ciphertext is 'lazily' decrypted via Strongsalt encrytion, and the plaintext filling the buffer provided. 
 
 ```go
-import "github.com/strongdoc/client/go/api"
+var docID string // set docID of your file here
+var cipherStream io.Reader // set ciphertext of your document here
+var err error
+var plaintext []byte
 
 plainStream, err := api.DecryptDocumentStream(token, docID, cipherStream)
 if err != nil {
-    log.Printf("Can not encrypt document: %s", err)
-    return
+    log.Printf("Can not decrypt document: %s", err)
+    os.Exit(1)
 }
 buf := make([]byte, 1000)
-ciphertext := make([]byte, 0)
+plaintext := make([]byte, 0)
 for err != io.EOF {
-    n, readErr := eds.Read(buf)
+    n, readErr := plainStream.Read(buf)
+    if err != nil && err != io.EOF {
+        log.Printf("Can not download document: %v", err)
+        os.Exit(1)
+    }
     err = readErr
-    ciphertext = append(ciphertext, buf[:n]...)
+    plaintext = append(plaintext, buf[:n]...)
 }
+fmt.Printf("Received file, bytes: [%v]", plaintext)
 ```
 
 
