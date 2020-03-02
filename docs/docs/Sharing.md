@@ -15,6 +15,18 @@ if err != nil {
 > Organization administrators must first add the `OrgID` of the *sharee's* organization
 > with [`AddSharableOrg`](Sharing.md#add-sharable-organizations).
 
+## Unsharing Documents
+
+This allows you to unshare documents previously shared.
+
+```go
+ok, err := UnshareDocument(token, docID, otherUserID)
+if err != nil {
+    fmt.Printf("Could not unshare: %v", err)
+    os.Exit(1)
+}
+```
+
 ## Add Sharable Organizations
 
 Before any users can share their documents with users from other organizations,

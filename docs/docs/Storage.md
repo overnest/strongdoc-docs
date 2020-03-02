@@ -111,6 +111,22 @@ for i, doc := range docs {
 }
 ```
 
+# Get Document Size and Get Index Size
+
+<!-- This function allows you to check the size of your documents and index. 
+
+```go
+docs, err := api.GetDocumentsSize(token)
+if err != nil {
+    log.Printf("err with ListDocuments: %s", err)
+    return
+}
+fmt.Printf("The total size of your documents is %d")
+``` -->
+
+> Not implemented yet.
+
+
 ## Remove Document
 
 `Remove Document` deletes a document that you can access.
