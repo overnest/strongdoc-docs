@@ -26,12 +26,4 @@ This command generates static content into the `build` directory and can be serv
 
 ### Deployment
 
-```
-$ aws s3 sync build/ s3://docs.strongsaltqa.com/
-```
-
-This command syncs the contents of the build directory to the QA s3 bucket
-
-s3 endpoint can be viewed at http://docs.strongsaltqa.com.s3-website-us-east-1.amazonaws.com
-
-remove "qa" for instructions above for production
+There are two jobs in Jenkins to build and deploy the website. One for QA and the other for production. Please refer to the strongdoc repo on how to access Jenkins.
