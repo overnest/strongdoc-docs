@@ -1,7 +1,6 @@
 ## Uploading Documents
 
-You can upload documents via the storage method that you chose.
-Currently, our storage is implemented with AWS S3. We may be able to accomodate to other storage providers at your request.
+With our storage service permits you to securely encrypt and store your documents with Strongdoc.
 
 ### Upload Document
 
@@ -75,12 +74,14 @@ The file download also offered as a streaming service, which you may want to do 
 When `Read()` is called on the stream, your document is 'lazily' decrypted via Strongsalt encrytion and downloaded, and the plaintext filling the buffer provided.
 
 ```go
+const blockSize = 1000
+
 var docID string // set docID of your file here
 var dataStream io.Reader
 var err error
 
 dataStream, err := DownloadDocumentStream(token, docID)
-buf := make([]byte, 1000)
+buf := make([]byte, blockSize)
 rcvdBytes := make([]byte,0)
 for err == nil {
     n, readErr := dataStream.Read(buf)
@@ -92,4 +93,38 @@ for err == nil {
     rcvdBytes = append(rcvdBytes, buf[:n]...)
 }
 fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
+```
+
+## List Document
+
+This function allows you to list the documents that you can access. The return object is an array of `Document`. This object has three properties, `DocName`, `DocID` and `Size`.
+
+```go
+docs, err := ListDocuments(token)
+if err != nil {
+    log.Printf("err with ListDocuments: %s", err)
+    return
+}
+
+for i, doc := range docs {
+    fmt.Printf("%d | DocName: [%s], DocID: [%s], Size: [%d]\n--------\n", i, doc.DocName, doc.DocID, doc.Size)
+}
+```
+
+## Remove Document
+
+`Remove Document` deletes a document that you can access.
+
+If you are a regular user, you may only remove a document that belongs to you. If you are an administrator, you can remove all the documents of the organization for which you are an administrator.
+
+Attempting to remove a nonexistent document throws an error.
+
+```go
+var docID string // set docID of the document here
+
+err := RemoveDocument(token, docID)
+if err != nil {
+    log.Printf("err with RemoveDocument: %s", err)
+    return
+}
 ```

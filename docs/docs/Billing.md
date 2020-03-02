@@ -5,7 +5,7 @@ This section allows you to check your Billing status.
 Call the `Billing` function to retrieve details of your Billing; this makes accounting with our service easier.
 
 ```go
-billingDetails, err := Billing(token)
+billingDetails, err := api.Billing(token)
 if err != nil {
     log.Printf("failed to get Billing Details: %s", err)
     os.Exit(1)

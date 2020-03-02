@@ -8,11 +8,9 @@
 module.exports = {
   someSidebar: {
     "Introduction": ['Getting Started'],
-    "Authentication": ['Authentication'],
+    "Authentication": ['Authentication', 'User Accounts & Access Control', 'Organizations'],
     "Documents": ['Encryption', 'Storage', 'Search', 'Sharing'],
-    "Primary Functions": ['Status'],
-    "Auxillary Functions": ['Configuration'],
+    "Miscellaneous": ['Configuration'],
     "Billing": ['Billing'],
-    "Features": ['mdx'],
   },
 };

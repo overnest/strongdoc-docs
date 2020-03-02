@@ -1,6 +1,8 @@
 ## Encryption
 
-Strongdoc offers an encryption service. No data is stored on Strongdoc. Note that we also do provide storage together with the encryption with `UploadDocument` and `UploadDocumentStream`.
+Strongdoc offers an encryption service. No data is stored on Strongdoc. 
+
+> We also do provide a store-and-encrypt service with [`UploadDocument`](Storage.md#upload-document) and  [`UploadDocumentStream`](Storage.md#upload-document-streaming).
 
 ### Encrypt Document
 
@@ -43,7 +45,7 @@ print('Hello, world')
 </TabItem>
 </Tabs>
 
-> Storage of your (encrypted) documents is also available with `UploadDocument`.
+> Storage of your (encrypted) documents is also available with [`UploadDocument`](Storage.md#upload-document).
 
 ### Encrypt Document (Streaming)
 
@@ -78,7 +80,7 @@ for err != io.EOF {
 fmt.Printf("Encrypted file, docID: [%s]", docID)
 ```
 
-> We are also able to store your documents while ensuring that they're encrypted, implemented as a streaming protocol, with `UploadDocumentStream`.
+> We are also able to encrypt and store the documents for you with [`UploadDocumentStream`](Storage.md#upload-document-streaming).
 
 ## Decryption
 
@@ -114,6 +116,8 @@ The decryption API is also offered as a streaming service, which you may want to
 When `Read()` is called on the stream, the ciphertext is 'lazily' decrypted via Strongsalt encrytion, and the plaintext filling the buffer provided. 
 
 ```go
+const blockSize = 1000
+
 var docID string // set docID of your file here
 var cipherStream io.Reader // set ciphertext of your document here
 var err error
@@ -124,7 +128,8 @@ if err != nil {
     log.Printf("Can not decrypt document: %s", err)
     os.Exit(1)
 }
-buf := make([]byte, 1000)
+
+buf := make([]byte, blockSize)
 plaintext := make([]byte, 0)
 for err != io.EOF {
     n, readErr := plainStream.Read(buf)
@@ -137,5 +142,4 @@ for err != io.EOF {
 }
 fmt.Printf("Received file, bytes: [%v]", plaintext)
 ```
-
 
