@@ -1,8 +1,21 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 This section allows you to check your Billing status. 
 
 ## Billing
 
 Call the `Billing` function to retrieve details of your Billing; this makes accounting with our service easier.
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 billingDetails, err := api.Billing(token)
@@ -11,6 +24,35 @@ if err != nil {
     os.Exit(1)
 }
 ```
+</TabItem>
+<TabItem value="py">
+
+```py
+billingDetails = billing.get_billing_details(token)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+const billing = require('./api/billing');
+
+let billingDetailsRes = await billing.getBillingDetails(client);
+console.log("billingDetailsRes: " + billingDetailsRes);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 Here's what this Billing object contains:
 

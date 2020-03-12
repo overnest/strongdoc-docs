@@ -8,7 +8,7 @@
 module.exports = {
   someSidebar: {
     "Introduction": ['Getting Started'],
-    "Authentication": ['Authentication', 'User Accounts & Access Control', 'Organizations'],
+    "Authentication": ['Login & Logout', 'User Accounts & Access Control', 'Organizations'],
     "Documents": ['Encryption', 'Storage', 'Search', 'Sharing'],
     "Miscellaneous": ['Configuration'],
     "Billing": ['Billing'],

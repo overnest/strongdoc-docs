@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Uploading Documents
 
 With our storage service permits you to securely encrypt and store your documents with Strongdoc.
@@ -9,6 +12,16 @@ with a key (a string that uniquely identifies the document). The payload
 can be any arbitrary bytes. In this case, the bytes are obtained 
 from a file located locally in the same directory as the Go
 program being executed.
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 var filename string // set your filename here
@@ -25,22 +38,111 @@ if err != nil {
 fmt.Printf("Uploaded document, docID: [%s]", docID)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+# set filepath, and filename here
+with open(filepath, "rb") as f:
+    file_bytes = f.read()
+doc_id = document.upload_document(token, filename, file_bytes)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+const fs = require('fs');
+
+let docName // set value here
+let plaintext = fs.readFileSync(filepath);
+
+resp = await document.uploadDocument(client, docName, plaintext);
+docId = resp.getDocID();
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
 ### Upload Document (Streaming)
 
-You may also stream the document, which you may want if your file is too big or if you want to stream the bytes on the fly. You must provide an io.Reader object (for instance, an os.File).
+You may also stream the document, which you may want if your file is too big or if you want to stream the bytes on the fly.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 var filename string // set your filename here
-var fileBytes []byte
+var fileReader io.Reader // provide an io.Reader object (for instance, an os.File)
 var err error
 
-docID, err := api.UploadDocumentStream(token, filename, fileBytes)
+docID, err := api.UploadDocumentStream(token, filename, fileReader)
 if err != nil {
     log.Printf("Can not upload document: %v", err)
     os.Exit(1)
 }
 fmt.Printf("Uploaded document, docID: [%s]\n", docID)
 ```
+</TabItem>
+<TabItem value="py">
+
+You must provide an generator function that yields the data of the file.
+
+```py
+def file_chunker(f, chunkSize=10000):
+    while True:
+        data = f.read(chunkSize)
+        if not data:
+            break
+        yield data
+
+file_bytes_generator = file_chunker(open(filepath))
+
+doc_id = document.upload_document_stream(token, filename, file_bytes_generator)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+// set docName of your document here
+
+let readStream = fs.createReadStream(filepath);
+let response = await document.uploadDocumentStream(client, docName, readStream);
+console.log("uploadDocumentStream: " + response.getDocID());
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
 
 ## Downloading Documents
 
@@ -51,6 +153,17 @@ document.
 ### Download Document
 
 The file is returned as a byte slice containing the plaintext of the document.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 var docID string // use docID for the file you want
@@ -65,9 +178,50 @@ if err != nil {
 fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+down_bytes = document.download_document_stream(token, doc_id)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+let docId // set value here
+
+plaintext = await document.downloadDocument(client, docId);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
 ### Download Document (Streaming)
 
 The file download also offered as a streaming service, which you may want to do if your file is too big or if you want to stream the bytes on the fly.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 `DownloadDocumentStream` returns an `io.Reader` stream.
 
@@ -95,9 +249,60 @@ for err == nil {
 fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+You must provide an generator function that yields the data of the file. 
+
+`downloadDocumentStream` returns a generator yielding the downloaded document.
+
+```py
+down_bytes = b''
+down_chunk_gen = document.download_document_stream(token, upload_docid)
+for chunk in down_chunk_gen:
+    down_bytes += chunk
+```
+
+</TabItem>
+<TabItem value="node">
+You must provide a Readable stream that yields the data of the file.
+
+downloadDocumentStream returns a Readable stream yielding the plaintext.
+
+```javascript
+let downStream = document.downloadDocumentStream(client, docID);
+let downPlaintext = Buffer.alloc(0);
+for await (let chunk of downStream) {
+    downPlaintext = Buffer.concat([downPlaintext, chunk])
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
 ## List Document
 
 This function allows you to list the documents that you can access. The return object is an array of `Document`. This object has three properties, `DocName`, `DocID` and `Size`.
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 docs, err := ListDocuments(token)
@@ -110,6 +315,38 @@ for i, doc := range docs {
     fmt.Printf("%d | DocName: [%s], DocID: [%s], Size: [%d]\n--------\n", i, doc.DocName, doc.DocID, doc.Size)
 }
 ```
+</TabItem>
+<TabItem value="py">
+
+```py
+users = account.list_users(token)
+for user in users:
+    print(user.to_string())
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+docsResp = await document.listDocuments(client);
+docsList = docsResp.documentsList;
+docsList.forEach((doc => {
+    console.log(doc.toString()) // prints docName, docId, size properties of document objects.
+}));
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 # Get Document Size and Get Index Size
 
@@ -135,6 +372,17 @@ If you are a regular user, you may only remove a document that belongs to you. I
 
 Attempting to remove a nonexistent document throws an error.
 
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
+
 ```go
 var docID string // set docID of the document here
 
@@ -144,3 +392,33 @@ if err != nil {
     return
 }
 ```
+
+</TabItem>
+<TabItem value="py">
+
+```py
+document.remove_document(token, doc_id)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+let docId; // set value here
+
+let removeDocRes = await document.removeDocument(client, docId);
+console.log("removeDocRes: " + removeDocRes);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>

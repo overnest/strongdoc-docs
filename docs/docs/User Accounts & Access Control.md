@@ -2,6 +2,21 @@
 
 Creates a user in the organization.
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
+
+
 ```go
 var username string // fill in new user's info here
 var password string // fill in new user's info here
@@ -16,9 +31,56 @@ if err != nil {
 fmt.Println("New user created, userID: [%s]\n", userID)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+# assign your data to userName(string), userPass(string), userEmail(string), isAdmin(bool)
+account.register_user(token, userName, userPass, userEmail, isAdmin)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+// fill in new user's info here
+let userName,
+    userPassword,
+    userEmail,
+    isAdmin;
+
+let userID = await accounts.registerUser(client, userName, userPassword, userEmail, isAdmin);
+console.log("userID: " + userID);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
 ## Delete User
 
 Deletes a user in the organization.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 var userID string // set user's UserID here
@@ -31,9 +93,52 @@ if err != nil {
 fmt.Printf("User [%s] deleted.\n", userID)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+# set your user_id here
+account.remove_user(token, user_id)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+let userId; // set user's userId here
+
+let removeUserRes = await accounts.removeUser(client, userId);
+console.log("removeUserRes: " + removeUserRes);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
 ## List Users
 
 Lists all the users in the organization of the current user.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 users, err := ListUsers(token)
@@ -46,6 +151,38 @@ for i, u := range users {
 }
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+users = account.list_users(token)
+for user in users:
+    print(user.to_string())
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+const users = await accounts.listUsers(client);
+users.forEach(user => {
+    console.log(user.toString());
+});
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
 ## Authentication
 
 Some functions require you to be an administrator to execute,
@@ -54,6 +191,18 @@ or may grant additional functionality.
 ### Promote User
 
 Promotes a user in the organization to the Administrator level.
+
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 var userID string // set user's UserID here
@@ -66,11 +215,52 @@ if err != nil {
 fmt.Printf("User [%s] Promoted.\n", userID)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+# set your user_id here
+account.promote_user(token, user_id)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+let userId; // set value here
+let promoteUserRes = await accounts.promoteUser(client, userId);
+console.log("promoteUser: " + promoteUserRes);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
 > You can only promote users that are in your organization. 
 
 ### Demote User
 
 Demotes a user in the organization from the Administrator level.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 var userID string // set user's UserID here
@@ -82,6 +272,37 @@ if err != nil {
 }
 fmt.Printf("User [%s] Demoted.\n", userID)
 ```
+
+
+</TabItem>
+<TabItem value="py">
+
+```py
+# set your user_id here
+account.demote_user(token, user_id)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+let userId; // set value here
+let demoteUserRes = await accounts.demoteUser(client, userId);
+console.log("demoteUser: " + demoteUserRes);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 > You cannot demote a user if he is the last administrator of the organization.
 

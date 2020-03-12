@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Encryption
 
 Strongdoc offers an encryption service. No data is stored on Strongdoc. 
@@ -8,17 +11,17 @@ Strongdoc offers an encryption service. No data is stored on Strongdoc.
 
 To encrypt a document, simply call it together with the filename and the payload.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 <Tabs
   defaultValue="go"
   values={[
-      {label: 'Go Lang', value: 'go'},
-      {label: 'Python', value: 'py'}
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
     ]}
 >
 <TabItem value="go">
+
 
 ```go
 var filename string // set your filename here
@@ -39,17 +42,57 @@ fmt.Printf("Encrypted file, docID: [%s]", docID)
 <TabItem value="py">
 
 ```py
-print('Hello, world')
+# set filename(string)
+with open(filename) as f:
+        file_bytes = f.read()
+doc_id, ciphertext = document.encrypt_document(token, filename, file_bytes)
 ```
 
 </TabItem>
+<TabItem value="node">
+
+```javascript
+const fs = require('fs');
+
+let docName // set value here
+let plaintext = fs.readFileSync(filepath);
+
+resp = await document.encryptDocument(client, docName, plaintext);
+encDocId = resp.getDocID();
+encCiphertext = resp.getCiphertext();
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
 </Tabs>
+
 
 > Storage of your (encrypted) documents is also available with [`UploadDocument`](Storage.md#upload-document).
 
 ### Encrypt Document (Streaming)
 
-The encryption API is also offered as a streaming service, which you may want to do if your file is too big or if you want to stream the bytes on the fly. You must provide an io.Reader object (for instance, an os.File).
+The encryption API is also offered as a streaming service, which you may want to do if your file is too big or if you want to stream the bytes on the fly.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
+ You must provide an io.Reader object (for instance, an os.File).
 
 `EncryptDocumentStream` returns an `io.Reader` stream.
 
@@ -80,6 +123,60 @@ for err != io.EOF {
 fmt.Printf("Encrypted file, docID: [%s]", docID)
 ```
 
+</TabItem>
+<TabItem value="py">
+You must provide an generator function that yields the data of the file.
+
+`EncryptDocumentStream` returns a generator function yielding the ciphertext.
+
+```py
+def file_chunker(f, chunkSize=10000):
+    while True:
+        data = f.read(chunkSize)
+        if not data:
+            break
+        yield data
+
+file_bytes_generator = file_chunker(open(filepath))
+
+doc_id, ciphertext_generator = document.encrypt_document_strea(token, filename, file_bytes_generator
+ciphertext = extract_generator(ciphertext_generator)
+
+print(doc_id)
+
+```
+
+</TabItem>
+<TabItem value="node">
+
+You must provide a Readable stream that yields the data of the file.
+
+`EncryptDocumentStream` returns a Readable stream yielding the ciphertext.
+
+```javascript
+let readStream = fs.createReadStream(filepath);
+
+let encryptStreamRes = await document.encryptDocumentStream(client, docName, readStream);
+let ciphertext = Buffer.alloc(0);
+console.log("starting iteration")
+for await (let chunk of encryptStreamRes.encryptStream) {
+    ciphertext = Buffer.concat([ciphertext, chunk])
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
 > We are also able to encrypt and store the documents for you with [`UploadDocumentStream`](Storage.md#upload-document-streaming).
 
 ## Decryption
@@ -89,6 +186,17 @@ After encryption, you may now decrypt the document.
 ### Decrypt Document
 
 To decrypt a document, simply call it together with the filename and the payload.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
 
 ```go
 import "github.com/strongdoc/client/go/api"
@@ -107,9 +215,56 @@ if err != nil {
 fmt.Printf("Received file, bytes: [%v]", plaintext)
 ```
 
+</TabItem>
+<TabItem value="py">
+
+```py
+# set doc_id(string)
+decrypted_bytes = document.decrypt_document(token, doc_id, ciphertext)
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+const fs = require('fs');
+
+let docName // set value here
+let ciphertext = fs.readFileSync(filepath);
+
+plaintext = await document.decryptDocument(client, docId, ciphertext);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
 ### Decrypt Document (Streaming)
 
-The decryption API is also offered as a streaming service, which you may want to do if your file is too big or if you want to stream the bytes on the fly. You must provide an `io.Reader` object yielding the ciphertext returned by one of the encryption methods, `EncryptDocument` or `EncryptDocumentStream`.
+The decryption API is also offered as a streaming service, which you may want to do if your file is too big or if you want to stream the bytes on the fly. 
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
+
+You must provide an `io.Reader` object yielding the ciphertext returned by one of the encryption methods, `EncryptDocument` or `EncryptDocumentStream`.
 
 `DecryptDocumentStream` returns an `io.Reader` stream.
 
@@ -142,4 +297,48 @@ for err != io.EOF {
 }
 fmt.Printf("Received file, bytes: [%v]", plaintext)
 ```
+
+</TabItem>
+<TabItem value="py">
+You must provide an generator function that yields the data of the file. 
+
+decryptDocumentStream returns a generator function yielding the plaintext.
+
+```py
+# set filename(string) and ciphertext_generator, which yields the data of the file
+plaintext_generator = document.decrypt_document_stream(token, filename, ciphertext_generator)
+plaintext = b''
+for chunk in plaintext_generator:
+    plaintext += chunk
+```
+
+</TabItem>
+<TabItem value="node">
+
+You must provide a Readable stream that yields the data of the file.
+
+decryptDocumentStream returns a Readable stream yielding the plaintext.
+
+```javascript
+let decryptStream = await document.decryptDocumentStream(client, encryptStreamRes.docID, encryptStreamRes.encryptStream);
+
+plaintext = Buffer.alloc(0);
+for await (let chunk of decryptStream) {
+    console.log("chunklen: " + chunk.length.toString());
+    plaintext = Buffer.concat([plaintext, chunk])
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.print("Hello World!")
+    }
+}
+```
+</TabItem>
+</Tabs>
 
