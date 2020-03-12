@@ -28,7 +28,7 @@ module.exports = {
           items: [
             {
               label: 'Getting Started',
-              to: 'docs/Getting Started.md',
+              to: 'docs/Getting Started',
             },
             {
               label: 'Api Reference',
