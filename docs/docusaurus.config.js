@@ -32,7 +32,7 @@ module.exports = {
             },
             {
               label: 'Api Reference',
-              to: 'https://api.strongsalt.com/swagger',
+              to: 'https://apidocs.strongsalt.com/',
             },
           ],
         },
