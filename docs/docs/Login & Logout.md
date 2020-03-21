@@ -65,11 +65,17 @@ let token = await login.login(client, userName, userPassword, organization);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set your credentials here
+final String userID;
+final String password;
+final String orgID;
+
+final StrongDocAccount account = new StrongDocAccount();
+final String token = account.login(client, orgID, userID, password);
 ```
 </TabItem>
 </Tabs>
@@ -125,11 +131,15 @@ console.log("logoutStatus: " + logoutStatus);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set your token here
+final String token;
+
+final StrongDocAccount account = new StrongDocAccount();
+String status = account.logout(client, token);
 ```
 </TabItem>
 </Tabs>

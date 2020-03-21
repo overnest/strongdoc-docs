@@ -51,11 +51,17 @@ console.log("shareDocument: " + shareDocumentRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+// Set the user ID
+final String userID;
+
+final StrongDocDocument document = new StrongDocDocument();
+Boolean success = document.shareDocument(client, token, docID, userID);
 ```
 </TabItem>
 </Tabs>
@@ -109,11 +115,17 @@ console.log("unshareDocument: " + unshareDocumentRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+// Set the user ID
+final String userID;
+
+final StrongDocDocument document = new StrongDocDocument();
+long unsharedCount = document.unshareDocument(client, token, docID, userID);
 ```
 </TabItem>
 </Tabs>
@@ -163,11 +175,15 @@ console.log("addSharableOrgRes: " + addSharableOrgRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set the Organization ID
+final String orgID;
+
+final StrongDocAccount account = new StrongDocAccount();
+Boolean success = account.addSharableOrg(client, token, orgID);
 ```
 </TabItem>
 </Tabs>
@@ -218,11 +234,15 @@ console.log("removeSharableOrgRes: " + removeSharableOrgRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set the Organization ID
+final String orgID;
+
+final StrongDocAccount account = new StrongDocAccount();
+Boolean success = account.removeSharableOrg(client, token, orgID);
 ```
 </TabItem>
 </Tabs>
@@ -273,11 +293,15 @@ console.log("setMultiLevelSharingRes: " + setMultiLevelSharingRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Indicate whether multi-level sharing should be enabled
+final boolean isEnable;
+
+final StrongDocAccount account = new StrongDocAccount();
+Boolean success = account.setMultiLevelSharing(client, token, isEnable);
 ```
 </TabItem>
 </Tabs>

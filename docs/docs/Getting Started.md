@@ -47,7 +47,7 @@ Alternatively, you can first do the above and run `go get all`.
 </TabItem>
 <TabItem value="py">
 
-**Install Python on your OS**: https://www.python.org/downloads/
+**Install Python on your OS**: https://www.python.org/downloads/  
 **Link to API Github Repository**: https://github.com/overnest/strongdoc-python-sdk
 
 The API is available as module on pip. To use it, run
@@ -85,12 +85,33 @@ from strongdoc.api import account, document, login, search, config
 </TabItem>
 <TabItem value="java">
 
+**Install Java on your OS**: https://java.com/en/download/help/download_options.xml  
+**Link to API Github Repository**: https://github.com/overnest/strongdoc-java-sdk
+
+
+## Downloading and Setting Up the Strongdoc Java API
+
+The SDK can be installed by adding a Maven dependency.
+
+Add the following to Maven dependency.
+
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+<dependency>
+    <groupId>com.strongsalt.strongdoc.sdk</groupId>
+    <artifactId>strongDocSdk</artifactId>
+    <version>1.0.3</version>
+</dependency>
+```
+
+Then, import the classes you need at the top of your files:
+
+```java
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+import com.strongsalt.strongdoc.sdk.api.StrongDocBilling;
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+import com.strongsalt.strongdoc.sdk.api.StrongDocSearch;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+import com.strongsalt.strongdoc.sdk.client.StrongDocServiceClient;
 ```
 </TabItem>
 </Tabs>
@@ -190,11 +211,37 @@ userId = resp.getUserID();
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+import io.netty.handler.ssl.SslContext;
+
+public final static String SOURCE = ""; // Please ask the administrator to obtain the value
+public final static String SOURCE_DATA = ""; // Please ask the administrator to obtain the value
+public final static String ORG_ADMIN_NAME = "john-doe";
+public final static String ORG_ADMIN_PASSWORD = "password123";
+public final static String ORG_ADMIN_EMAIL = "hello@strongsalt.com";
+public final static String ORG_NAME = "myOrg";
+public final static String ORG_ADDRESS = "myAddr";
+
+public final static String HOST = "api.strongsalt.com";
+public final static int PORT = 9090;
+
+final SslContext sslContext =
+    StrongDocServiceClient.buildSslContext("./certs/grpc.root.pem",
+                                           "./certs/grpc.cert.pem",
+                                           null);
+
+final StrongDocServiceClient client = new StrongDocServiceClient(sslContext, HOST, PORT);
+final StrongDocAccount account = new StrongDocAccount();
+
+final RegisterOrganizationResponse registerOrganizationResponse =
+    account.registerOrganization(client, ORG_NAME, ORG_ADDRESS,
+                                 ORG_ADMIN_NAME, ORG_ADMIN_PASSWORD,
+                                 ORG_ADMIN_EMAIL, SOURCE, SOURCE_DATA);
+
+// The organization ID and user ID are available via these methods
+final String orgID = registerOrganizationResponse.getOrgID();
+final String userID = registerOrganizationResponse.getUserID();
 ```
 </TabItem>
 </Tabs>

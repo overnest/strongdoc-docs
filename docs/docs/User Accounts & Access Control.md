@@ -57,11 +57,18 @@ console.log("userID: " + userID);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Fill in new user's info and indicate if the new user shoulbe be admin
+final String username;
+final String password;
+final String email;
+final boolean admin;
+
+final StrongDocAccount account = new StrongDocAccount();
+final String userID = account.registerUser(client, token, username, password, email, admin);
 ```
 </TabItem>
 </Tabs>
@@ -115,11 +122,15 @@ console.log("removeUserRes: " + removeUserRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set user's user ID
+final String userID;
+
+final StrongDocAccount account = new StrongDocAccount();
+final long removeCount = account.removeUser(client, token, userID);
 ```
 </TabItem>
 </Tabs>
@@ -174,10 +185,17 @@ users.forEach(user => {
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+final StrongDocAccount account = new StrongDocAccount();
+ArrayList<OrgUserInfo> usersList = account.listUsers(client, token);
+for (OrgUserInfo orgUserInfo : usersList) {
+    String userID = orgUserInfo.getUserID();
+    String username = orgUserInfo.getUsername();
+    boolean isAdmin =  orgUserInfo.isAdmin();
 }
 ```
 </TabItem>
@@ -236,11 +254,15 @@ console.log("promoteUser: " + promoteUserRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set the user's ID
+final String userID;
+
+final StrongDocAccount account = new StrongDocAccount();
+final Boolean success = account.promoteUser(client, token, userID);
 ```
 </TabItem>
 </Tabs>
@@ -295,11 +317,15 @@ console.log("demoteUser: " + demoteUserRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set the user's ID
+final String userID;
+
+final StrongDocAccount account = new StrongDocAccount();
+Boolean success = account.demoteUser(client, token, userID);
 ```
 </TabItem>
 </Tabs>

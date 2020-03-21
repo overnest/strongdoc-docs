@@ -66,11 +66,21 @@ encCiphertext = resp.getCiphertext();
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+// Set the filename
+final String filename;
+// Set the text to be encrypted
+final String plaintext;
+
+final StrongDocDocument document = new StrongDocDocument();
+final EncryptDocumentResponse encryptDocResponse = document.encryptDocument(
+    client, token, filename, plaintext.getBytes());
+final String docID = encryptDocResponse.getDocID();
+final byte[] ciphertext = encryptDocResponse.getCiphertext();
 ```
 </TabItem>
 </Tabs>
@@ -168,11 +178,22 @@ for await (let chunk of encryptStreamRes.encryptStream) {
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+// Set the filename
+final String filename;
+// Set the text to be encrypted
+final String plaintext;
+
+final StrongDocDocument document = new StrongDocDocument();
+InputStream inputData = new ByteArrayInputStream(plaintext.getBytes());
+EncryptDocumentResponse encryptDocResponse = document.encryptDocumentStream(
+    client, token, filename, inputData);
+final String docID = encryptDocResponse.getDocID();
+final byte[] ciphertext = encryptDocResponse.getCiphertext();
 ```
 </TabItem>
 </Tabs>
@@ -239,11 +260,17 @@ plaintext = await document.decryptDocument(client, docId, ciphertext);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+// Load the ciphertext from the document
+final byte[] ciphertext;
+
+final StrongDocDocument document = new StrongDocDocument();
+byte[] decryptedData = document.decryptDocument(client, token, docID, ciphertext);
 ```
 </TabItem>
 </Tabs>
@@ -333,11 +360,18 @@ for await (let chunk of decryptStream) {
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+// Set the text to be decrypted
+final byte[] ciphertext;
+
+final StrongDocDocument document = new StrongDocDocument();
+InputStream encryptedStream = new ByteArrayInputStream(ciphertext);
+byte[] decryptedBytes = document.decryptDocumentStream(client, token, docID, encryptedStream);
 ```
 </TabItem>
 </Tabs>

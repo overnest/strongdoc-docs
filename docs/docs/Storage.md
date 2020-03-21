@@ -65,11 +65,18 @@ docId = resp.getDocID();
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the filename
+final String filename;
+// Create a File
+File file = new File("path_to_file/" + filename);
+
+final StrongDocDocument document = new StrongDocDocument();
+final byte[] data = Files.readAllBytes(file.toPath());
+final String docID = document.uploadDocument(client, token, filename, data);
 ```
 </TabItem>
 </Tabs>
@@ -134,11 +141,23 @@ console.log("uploadDocumentStream: " + response.getDocID());
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+// Set the filename
+final String filename;
+// Create a File
+File file = new File("path_to_file/" + filename);
+
+final StrongDocDocument document = new StrongDocDocument();
+final UploadDocumentResponse uploadDocumentResponse = document.uploadDocumentStream(
+    client, token, filename, new FileInputStream(file));
+
+// The uploaded document ID and size
+final String docID = uploadDocumentResponse.getDocID();
+final int docSize = uploadDocumentResponse.getNumBytes();
 ```
 </TabItem>
 </Tabs>
@@ -198,11 +217,15 @@ plaintext = await document.downloadDocument(client, docId);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+
+final StrongDocDocument document = new StrongDocDocument();
+final byte[] plaintext = document.downloadDocument(client, token, docID);
 ```
 </TabItem>
 </Tabs>
@@ -281,11 +304,17 @@ for await (let chunk of downStream) {
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+// The stream to where the downloaded document will be written to
+ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+final StrongDocDocument document = new StrongDocDocument();
+document.downloadDocumentStream(client, token, docID, output);
 ```
 </TabItem>
 </Tabs>
@@ -339,10 +368,17 @@ docsList.forEach((doc => {
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+final StrongDocDocument document = new StrongDocDocument();
+ArrayList<DocumentInfo> docInfoList = document.listDocuments(client, token);
+for (DocumentInfo docInfo : docInfoList) {
+    String docID = docInfo.getDocID();
+    String docName = docInfo.getDocName();
+    long docSize = docInfo.getSize();
 }
 ```
 </TabItem>
@@ -414,11 +450,15 @@ console.log("removeDocRes: " + removeDocRes);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
+
+// Set the document ID
+final String docID;
+
+final StrongDocDocument document = new StrongDocDocument();
+Boolean success = document.removeDocument(client, token, docID);
 ```
 </TabItem>
 </Tabs>

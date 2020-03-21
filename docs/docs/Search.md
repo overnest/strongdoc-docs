@@ -56,10 +56,20 @@ resp.getHitsList().forEach(hit => {
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocSearch;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+// Set the query words
+final String queryWords;
+
+final StrongDocSearch search = new StrongDocSearch();
+final SearchDocumentResponse searchResponse = search.runSearch(client, token, queryWords);
+final List<SearchDocumentResult> hitsList = searchResponse.getHitsList();
+for (SearchDocumentResult result : hitsList) {
+    String docID = result.getDocID();
+    Double score = result.getScore();
 }
 ```
 </TabItem>

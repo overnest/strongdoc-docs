@@ -62,11 +62,27 @@ console.log("UserID: " + resp.getUserID())
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+
+// Fill in your organization's and the first admin's info
+public final String source;
+public final String sourceData;
+public final String adminName;
+public final String password;
+public final String email;
+public final String orgName;
+public final String orgAddress;
+
+final StrongDocAccount account = new StrongDocAccount();
+final RegisterOrganizationResponse registerOrganizationResponse = 
+    account.registerOrganization(client, orgName, orgAddress, adminName, password, email, source, sourceData);
+
+// The organization ID and user ID are available via these methods
+final String orgID = registerOrganizationResponse.getOrgID();
+final String userID = registerOrganizationResponse.getUserID();
 ```
 </TabItem>
 </Tabs>
@@ -121,11 +137,15 @@ console.log("Organization remove: ", success);
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+// Please follow the Register Organization example in the 'Getting Started' section
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+// Set whether the removal will be performed forcefully
+final boolean isForce;
+
+final StrongDocAccount account = new StrongDocAccount();
+final Boolean success = account.removeOrganization(client, token, isForce);
 ```
 </TabItem>
 </Tabs>
