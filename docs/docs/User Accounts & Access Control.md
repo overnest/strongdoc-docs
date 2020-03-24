@@ -43,14 +43,9 @@ account.register_user(token, userName, userPass, userEmail, isAdmin)
 <TabItem value="node">
 
 ```javascript
-// fill in new user's info here
-let userName,
-    userPassword,
-    userEmail,
-    isAdmin;
+const { accounts } = require('strongdoc-nodejs-sdk')
 
-let userID = await accounts.registerUser(client, userName, userPassword, userEmail, isAdmin);
-console.log("userID: " + userID);
+const userID = await accounts.registerUser(client, userName, userPassword, userEmail, isAdmin);
 ```
 
 </TabItem>
@@ -112,10 +107,10 @@ account.remove_user(token, user_id)
 <TabItem value="node">
 
 ```javascript
-let userId; // set user's userId here
+const { accounts } = require('strongdoc-nodejs-sdk')
 
-let removeUserRes = await accounts.removeUser(client, userId);
-console.log("removeUserRes: " + removeUserRes);
+const count = await accounts.removeUser(client, userId);
+// count of users successfully removed
 ```
 
 </TabItem>
@@ -176,9 +171,7 @@ for user in users:
 
 ```javascript
 const users = await accounts.listUsers(client);
-users.forEach(user => {
-    console.log(user.toString());
-});
+// array of users
 ```
 
 </TabItem>
@@ -245,9 +238,9 @@ account.promote_user(token, user_id)
 <TabItem value="node">
 
 ```javascript
-let userId; // set value here
-let promoteUserRes = await accounts.promoteUser(client, userId);
-console.log("promoteUser: " + promoteUserRes);
+
+const success = await accounts.promoteUser(client, userId);
+//true|false
 ```
 
 </TabItem>
@@ -308,9 +301,9 @@ account.demote_user(token, user_id)
 <TabItem value="node">
 
 ```javascript
-let userId; // set value here
-let demoteUserRes = await accounts.demoteUser(client, userId);
-console.log("demoteUser: " + demoteUserRes);
+
+const success = await accounts.demoteUser(client, userId);
+// true|false
 ```
 
 </TabItem>

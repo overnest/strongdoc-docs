@@ -53,13 +53,13 @@ doc_id, ciphertext = document.encrypt_document(token, filename, file_bytes)
 
 ```javascript
 const fs = require('fs');
+const { documents } = require('strongdoc-nodejs-sdk')
 
-let docName // set value here
-let plaintext = fs.readFileSync(filepath);
+const data = fs.readFileSync('./path-to-my-file/myFile');
 
-resp = await document.encryptDocument(client, docName, plaintext);
-encDocId = resp.getDocID();
-encCiphertext = resp.getCiphertext();
+resp = await document.encryptDocument(client, 'myfilename.pdf', data);
+const docId = resp.getDocID();
+const encrypted = resp.getCiphertext();
 ```
 
 </TabItem>
@@ -161,17 +161,26 @@ print(doc_id)
 
 You must provide a Readable stream that yields the data of the file.
 
-`EncryptDocumentStream` returns a Readable stream yielding the ciphertext.
+`EncryptDocumentStream` returns a Readable stream of the ciphertext.
 
 ```javascript
-let readStream = fs.createReadStream(filepath);
+const { document } = require('strongdoc-nodejs-sdk');
+const stream = require('stream');
+const pipeline = promisify(stream.pipeline);
 
-let encryptStreamRes = await document.encryptDocumentStream(client, docName, readStream);
-let ciphertext = Buffer.alloc(0);
-console.log("starting iteration")
-for await (let chunk of encryptStreamRes.encryptStream) {
-    ciphertext = Buffer.concat([ciphertext, chunk])
+const readStream = fs.createReadStream('./path/file');
+const response = await document.encryptDocumentStream(client, 'file name', readStream);
+
+// You can iterate throught the stream
+for await (const chunk of response.encryptStream) {
+    //do something with the chunk
 }
+
+// or pipe the stream to a writable
+const writable = fs.createWriteStream('./path/encryptedFile');
+await pipeline(response.encryptStream, writable);
+//async
+response.encryptStream.pipe(writable)
 ```
 
 </TabItem>
@@ -250,10 +259,9 @@ decrypted_bytes = document.decrypt_document(token, doc_id, ciphertext)
 ```javascript
 const fs = require('fs');
 
-let docName // set value here
-let ciphertext = fs.readFileSync(filepath);
+const ciphertext = fs.readFileSync('./path/encryptedFile');
 
-plaintext = await document.decryptDocument(client, docId, ciphertext);
+const data = await document.decryptDocument(client, docId, ciphertext);
 ```
 
 </TabItem>
@@ -347,13 +355,16 @@ You must provide a Readable stream that yields the data of the file.
 decryptDocumentStream returns a Readable stream yielding the plaintext.
 
 ```javascript
-let decryptStream = await document.decryptDocumentStream(client, encryptStreamRes.docID, encryptStreamRes.encryptStream);
 
-plaintext = Buffer.alloc(0);
-for await (let chunk of decryptStream) {
-    console.log("chunklen: " + chunk.length.toString());
-    plaintext = Buffer.concat([plaintext, chunk])
+const decryptStream = await document.decryptDocumentStream(client, docId, readableStream);
+
+//iterate
+for await (const chunk of decryptStream) {
+    //do something with chunk
 }
+
+//or pipe
+decryptStream.pipe(writable)
 ```
 
 </TabItem>

@@ -56,13 +56,8 @@ The API is available as module on pip. To use it, run
 
 Then, import the modules you need at the top of your files:
 
-```javascript
-const login = require('./api/login');
-const config = require('./api/config')
-const accounts = require('./api/accounts');
-const document = require('./api/document');
-const search = require('./api/search');
-const sd = require('./client/strongDoc');
+```py
+from strongdoc.api import account, document, login, search, config
 ```
 
 
@@ -74,12 +69,12 @@ const sd = require('./client/strongDoc');
 
 The API is available as module on npm. To use it, run
 
-`pip install strongsalt-strongdoc-python-sdk`
+`npm i strongdoc-nodejs-sdk`
 
 Then, import the modules you need at the top of your files:
 
-```py
-from strongdoc.api import account, document, login, search, config
+```javascript
+const {StrongDoc, auth, accounts, documents, search, billing} = require('strongdoc-nodejs-sdk')
 ```
 
 </TabItem>
@@ -195,16 +190,15 @@ print(f"Registered successfully, org_id: {org_id}, admin_id: {admin_id}")
 <TabItem value="node">
 
 ```javascript
-const sd = require('./client/strongDoc');
-const accounts = require('./api/accounts');
+cosnt {StrongDoc, accounts} = require('strongdoc-nodejs-sdk')
 
-client = new sd.StrongDoc(sd.StrongDoc.ServciceLocation.LOCAL);
+const client = new StrongDoc(StrongDoc.ServciceLocation.DEFAULT);
 
-resp = await accounts.registerOrganization(client, organization, "",adminName, adminPassword, adminEmail);
+const resp = await accounts.registerOrganization(client, organization, orgAddress, adminName, adminPassword, adminEmail);
 
 // the orgId and userId are available via these methods
-orgId = resp.getOrgID();
-userId = resp.getUserID();
+const orgId = resp.getOrgID();
+const userId = resp.getUserID();
 ```
 
 </TabItem>

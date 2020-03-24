@@ -40,11 +40,9 @@ document.share_document(token, doc_id, user_id)
 <TabItem value="node">
 
 ```javascript
-let docId; // set string here
-let userId; // set string here
 
-let shareDocumentRes = await document.shareDocument(client, docId, userId);
-console.log("shareDocument: " + shareDocumentRes);
+const success = await document.shareDocument(client, docId, userId);
+// true|false
 ```
 
 </TabItem>
@@ -104,11 +102,9 @@ document.unshare_document(token, doc_id, user_id)
 <TabItem value="node">
 
 ```javascript
-let docId; // set string here
-let userId; // set string here
 
-let unshareDocumentRes = await document.unshareDocument(client, docId, userId);
-console.log("unshareDocument: " + unshareDocumentRes);
+const success = await document.unshareDocument(client, docId, userId);
+// true|false
 ```
 
 </TabItem>
@@ -166,9 +162,10 @@ account.add_sharable_organization(token, org_id)
 <TabItem value="node">
 
 ```javascript
-let orgId // set string here
-let addSharableOrgRes = await accounts.addSharableOrg(client, orgId);
-console.log("addSharableOrgRes: " + addSharableOrgRes);
+const = { accounts } = require('strongdoc-nodejs-sdk')
+
+const success = await accounts.addSharableOrg(client, orgIdToShareWith);
+// true|false
 ```
 
 </TabItem>
@@ -224,10 +221,9 @@ account.remove_sharable_organization(token, org_id)
 <TabItem value="node">
 
 ```javascript
-let orgId // set string here
 
-let removeSharableOrgRes = await accounts.removeSharableOrg(client, orgId);
-console.log("removeSharableOrgRes: " + removeSharableOrgRes);
+const success = await accounts.removeSharableOrg(client, orgId);
+// true|false
 ```
 
 </TabItem>
@@ -283,10 +279,10 @@ account.set_multilevel_sharing(token, isEnable)
 <TabItem value="node">
 
 ```javascript
-let isEnable; // set bool here
+const setMultiLevelSharing = true;
 
-let setMultiLevelSharingRes = await accounts.setMultiLevelSharing(client, isEnable);
-console.log("setMultiLevelSharingRes: " + setMultiLevelSharingRes);
+const success = await accounts.setMultiLevelSharing(client, setMultiLevelSharing);
+//Boolean
 ```
 
 </TabItem>

@@ -37,10 +37,10 @@ config.get_configuration(token)
 <TabItem value="node">
 
 ```javascript
-const config = require('./api/config');
+const { config } = require('strongdoc-nodejs-sdk');
 
-let configStatus = await config.getConfiguration(client);
-console.log(configStatus);
+const configResponse = await config.getConfiguration(client);
+const config = configResponse.getConfiguration();
 ```
 
 </TabItem>

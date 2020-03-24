@@ -42,15 +42,10 @@ for hit in hits:
 <TabItem value="node">
 
 ```javascript
-resp = await search.search(client, token, "bed mounts");
-resp.getHitsList().forEach(hit => {
-    console.log(hit.toString());
-});
-// resp.getHitsList().forEach(function(hit){
-//     if (hit.getDocID() != upDocId && hit.getDocID() != encDocId) {
-//         throw Error("The search result does not match.")
-//     }
-// });
+
+const resp = await search.search(client, 'search query');
+const results = resp.getHitsList()
+// array
 ```
 </TabItem>
 <TabItem value="java">

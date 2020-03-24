@@ -53,12 +53,12 @@ doc_id = document.upload_document(token, filename, file_bytes)
 
 ```javascript
 const fs = require('fs');
+const { document } = require('strongdoc-nodejs-sdk');
 
-let docName // set value here
-let plaintext = fs.readFileSync(filepath);
+const data = fs.readFileSync(filepath);
 
-resp = await document.uploadDocument(client, docName, plaintext);
-docId = resp.getDocID();
+const resp = await document.uploadDocument(client, 'file name', data);
+const docId = resp.getDocID();
 ```
 
 </TabItem>
@@ -130,11 +130,13 @@ doc_id = document.upload_document_stream(token, filename, file_bytes_generator)
 <TabItem value="node">
 
 ```javascript
-// set docName of your document here
+const fs = require('fs');
+const { document } = require('strongdoc-nodejs-sdk');
 
-let readStream = fs.createReadStream(filepath);
-let response = await document.uploadDocumentStream(client, docName, readStream);
-console.log("uploadDocumentStream: " + response.getDocID());
+const readStream = fs.createReadStream('./path/file');
+
+const response = await document.uploadDocumentStream(client, docName, readStream);
+const docId = response.getDocID();
 ```
 
 </TabItem>
@@ -208,9 +210,9 @@ down_bytes = document.download_document_stream(token, doc_id)
 <TabItem value="node">
 
 ```javascript
-let docId // set value here
+const { document } = require('strongdoc-nodejs-sdk');
 
-plaintext = await document.downloadDocument(client, docId);
+const file = await document.downloadDocument(client, docId);
 ```
 
 </TabItem>
@@ -293,11 +295,15 @@ You must provide a Readable stream that yields the data of the file.
 downloadDocumentStream returns a Readable stream yielding the plaintext.
 
 ```javascript
-let downStream = document.downloadDocumentStream(client, docID);
-let downPlaintext = Buffer.alloc(0);
-for await (let chunk of downStream) {
-    downPlaintext = Buffer.concat([downPlaintext, chunk])
+const downloadStream = document.downloadDocumentStream(client, docID);
+
+// iterate
+for await (let chunk of downloadStream) {
+    // do something with chunk
 }
+
+// or pipe
+downloadStream.pipe(writable)
 ```
 
 </TabItem>
@@ -357,11 +363,9 @@ for user in users:
 <TabItem value="node">
 
 ```javascript
-docsResp = await document.listDocuments(client);
-docsList = docsResp.documentsList;
-docsList.forEach((doc => {
-    console.log(doc.toString()) // prints docName, docId, size properties of document objects.
-}));
+const docsResp = await document.listDocuments(client);
+const docsList = docsResp.documentsList;
+//array
 ```
 
 </TabItem>
@@ -440,10 +444,9 @@ document.remove_document(token, doc_id)
 <TabItem value="node">
 
 ```javascript
-let docId; // set value here
 
-let removeDocRes = await document.removeDocument(client, docId);
-console.log("removeDocRes: " + removeDocRes);
+const success = await document.removeDocument(client, docId);
+// true|false
 ```
 
 </TabItem>

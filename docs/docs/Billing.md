@@ -64,10 +64,9 @@ billingDetails = billing.get_billing_details(token)
 | NextPeriod    | NextPeriod()    | BillingPeriod     | Next Billing Period                                               |
 
 ```javascript
-const billing = require('./api/billing');
+const { billing } = require('strongdoc-nodejs-sdk');
 
-let billingDetailsRes = await billing.getBillingDetails(client);
-console.log("billingDetailsRes: " + billingDetailsRes);
+const billingDetailsRes = await billing.getBillingDetails(client);
 ```
 
 </TabItem>
@@ -84,4 +83,4 @@ class HelloWorld {
 </Tabs>
 
 For the full and updated list of the properties in the BillingDetails object,
-you may read the [API documentation](https://godoc.org/github.com/overnest/strongdoc-go-sdk/api) for further details. 
+you may read the [API documentation](https://apidocs.strongsalt.com) for further details. 

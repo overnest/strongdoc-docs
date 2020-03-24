@@ -49,16 +49,16 @@ login.login(user_id, user_pass, org_id)
 <TabItem value="node">
 
 ```javascript
-const login = require('./api/login');
+const { StrongDoc, auth } = require('strongdoc-nodejs-sdk');
 
-let client = new sd.StrongDoc(sd.StrongDoc.ServciceLocation.LOCAL);
+const client = new StrongDoc(StrongDoc.ServciceLocation.LOCAL);
 
 const userName     = "userUserName", 
       userPassword = "userUserPassword",
       userEmail    = "userUser@somewhere.com";
       organization = "OrganizationOne";
       
-let token = await login.login(client, userName, userPassword, organization);
+const token = await auth.login(client, userName, userPassword, organization);
 ```
 
 </TabItem>
@@ -123,7 +123,7 @@ login.logout(token)
 <TabItem value="node">
 
 ```javascript
-let logoutStatus = await login.logout(client, token);
+const logoutStatus = await auth.logout(client, token);
 console.log("logoutStatus: " + logoutStatus);
 ```
 
