@@ -11,7 +11,7 @@ module.exports = {
     "Authentication": ['Login & Logout', 'User Accounts & Access Control', 'Organizations'],
     "Documents": ['Encryption', 'Storage', 'Sharing'],
     "Search": ['Search'],
-    "Miscellaneous": ['Configuration'],
+    //"Miscellaneous": ['Configuration'],
     "Billing": ['Billing'],
   },
 };

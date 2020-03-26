@@ -35,9 +35,18 @@ fmt.Println("New user created, userID: [%s]\n", userID)
 <TabItem value="py">
 
 ```py
-# assign your data to userName(string), userPass(string), userEmail(string), isAdmin(bool)
-account.register_user(token, userName, userPass, userEmail, isAdmin)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
+username = "user1"
+password = "password"
+email = "user1@website.com"
+make_admin = True
+
+account.register_user(token, username, password, email, make_admin)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.register_user).
 
 </TabItem>
 <TabItem value="node">
@@ -99,10 +108,15 @@ fmt.Printf("User [%s] deleted.\n", userID)
 <TabItem value="py">
 
 ```py
-# set your user_id here
-account.remove_user(token, user_id)
-```
+from strongdoc.api import account
 
+# login and get a token, which identifies a user and an organization
+
+userid = 'userid_to_remove'
+
+account.remove_user(token, userid)
+```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.remove_user).
 </TabItem>
 <TabItem value="node">
 
@@ -161,10 +175,17 @@ for i, u := range users {
 <TabItem value="py">
 
 ```py
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
 users = account.list_users(token)
 for user in users:
-    print(user.to_string())
+    print("Username: ", user.username)
+    print("UserID: ", user.userid)
+    print("Is Admin: ", user.is_admin)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.list_users).
 
 </TabItem>
 <TabItem value="node">
@@ -230,10 +251,15 @@ fmt.Printf("User [%s] Promoted.\n", userID)
 <TabItem value="py">
 
 ```py
-# set your user_id here
-account.promote_user(token, user_id)
-```
+from strongdoc.api import account
 
+# login and get a token, which identifies a user and an organization
+
+userid = 'userID_of_user_to_promote'
+
+account.promote_user(token, userid)
+```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.promote_user).
 </TabItem>
 <TabItem value="node">
 
@@ -293,9 +319,15 @@ fmt.Printf("User [%s] Demoted.\n", userID)
 <TabItem value="py">
 
 ```py
-# set your user_id here
-account.demote_user(token, user_id)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
+userid = 'userID_of_user_to_demote'
+
+account.demote_user(token, userid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.demote_user).
 
 </TabItem>
 <TabItem value="node">
@@ -323,6 +355,6 @@ Boolean success = account.demoteUser(client, token, userID);
 </TabItem>
 </Tabs>
 
-> You cannot demote a user if he is the last administrator of the organization.
+> You cannot demote a user if they are the last administrator of the organization.
 
 > You can only demote users that are in your organization. 

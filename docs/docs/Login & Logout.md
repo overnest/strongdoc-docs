@@ -41,9 +41,13 @@ Alternatively, you can first do the above and run `go get all`.
 
 ```py
 from strongdoc.api import login
-# set your user_id, user_pass, org_id (strings) here
-login.login(user_id, user_pass, org_id)
+
+# set your userid, password, and orgid (strings) here
+token = login.login(userid, password, orgid)
+
+# token (str) is a required argument for all functions which require authentication
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.login.login).
 
 </TabItem>
 <TabItem value="node">
@@ -116,8 +120,13 @@ if err != nil {
 <TabItem value="py">
 
 ```py
+from strongdoc.api import login
+
+# save a token returned by a call to login
+
 login.logout(token)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.login.logout)
 
 </TabItem>
 <TabItem value="node">

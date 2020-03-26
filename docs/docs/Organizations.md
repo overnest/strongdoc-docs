@@ -121,9 +121,17 @@ fmt.Println("Removed Organization successfully.")
 <TabItem value="py">
 
 ```py
-# set isForce (bool) here
-account.remove_organization(token, isForce)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
+# The second argument is type bool. If not forced, a removal will fail if the organization still holds data.
+
+is_force = True
+
+account.remove_organization(token, is_force)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.remove_organization).
 
 </TabItem>
 <TabItem value="node">

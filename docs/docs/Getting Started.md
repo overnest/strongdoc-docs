@@ -47,19 +47,24 @@ Alternatively, you can first do the above and run `go get all`.
 </TabItem>
 <TabItem value="py">
 
-**Install Python on your OS**: https://www.python.org/downloads/  
+**Install Python3 on your OS**: https://www.python.org/downloads/  
 **Link to API Github Repository**: https://github.com/overnest/strongdoc-python-sdk
 
-The API is available as module on pip. To use it, run
+The API is available as module on PyPI, and requires python3. To install it, run:
 
-`npm i strongdoc-nodejs-sdk`
+`pip install strongsalt-strongdoc-python-sdk`
+
+Or, depending on how your system is setup, you may have to use:
+
+`pip3 install strongsalt-strongdoc-python-sdk`
 
 Then, import the modules you need at the top of your files:
 
 ```py
-from strongdoc.api import account, document, login, search, config
+from strongdoc.api import account, document, login, search, billing
 ```
 
+There are examples showing how to use Strongdoc with python on this website, and the full details can be found in the [Strongdoc Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/index.html).
 
 </TabItem>
 <TabItem value="node">

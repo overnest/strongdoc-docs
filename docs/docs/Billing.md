@@ -38,19 +38,27 @@ if err != nil {
 </TabItem>
 <TabItem value="py">
 
-| Name          | Method          | Returns           | Description                                                       |
-|---------------|-----------------|-------------------|-------------------------------------------------------------------|
-| CurrentPeriod | CurrentPeriod() | BillingPeriod     | Current Billing Period                                            |
-| TotalCost     | TotalCost()     | int               | Total Cost incurred                                               |
-| Documents     | Documents()     | Cost              | Encapsulates total cost and size of the Documents stored          |
-| Index         | Index()         | Cost              | Encapsulates total cost and size of the Indexes stored            |
-| Traffic       | Traffic()       | Traffic           | Encapsulates total cost and size of incoming and outgoing traffic |
-| NextPeriod    | NextPeriod()    | BillingPeriod     | Next Billing Period                                               |
-
 ```py
-billingDetails = billing.get_billing_details(token)
+from strongdoc.api import billing
+
+# login and get a token...
+
+billing_details = billing.get_billing_details(token)
 ```
 
+The return value is of type `BillingDetails`, which has the following attributes:
+
+| Attribute           | Type                | Description                                                       |
+|---------------------|---------------------|-------------------------------------------------------------------|
+| `period_start`      | `datetime.datetime` | Start of current billing period                                   |
+| `period_end`        | `datetime.datetime` | End of current billing period                                     |
+| `total_cost`        | `float`             | Total Cost incurred                                               |
+| `documents`         | `DocumentCosts`     | Encapsulates total cost and size of the documents stored          |
+| `search`            | `SearchCosts`       | Encapsulates total cost and size of the search data stored        |
+| `traffic`           | `TrafficCosts`      | Encapsulates total cost and size of incoming and outgoing traffic |
+| `billing_frequency` | `BillingFrequency`  | Current billing frequency                                         |
+
+More details can be found in the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#module-strongdoc.api.billing)
 </TabItem>
 <TabItem value="node">
 

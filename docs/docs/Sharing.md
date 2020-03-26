@@ -32,9 +32,17 @@ if err != nil {
 <TabItem value="py">
 
 ```py
-# set your doc_id and user_id here
-document.share_document(token, doc_id, user_id)
+from strongdoc.api import document
+
+# login and get a token
+
+# upload a file and save the docid
+
+userid = 'userID_of_user_to_share_to'
+
+document.share_document(token, docid, userid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.share_document).
 
 </TabItem>
 <TabItem value="node">
@@ -94,9 +102,17 @@ if err != nil {
 <TabItem value="py">
 
 ```py
-# set your doc_id and user_id here
-document.unshare_document(token, doc_id, user_id)
+from strongdoc.api import document
+
+# login and get a token
+
+# upload a document and save the docid, then share the document with another user
+
+userid = 'userID_of_user_to_unshare_from'
+
+document.unshare_document(token, docid, userid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.unshare_document).
 
 </TabItem>
 <TabItem value="node">
@@ -154,9 +170,15 @@ if err != nil {
 <TabItem value="py">
 
 ```py
-# set org_id here
-account.add_sharable_organization(token, org_id)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and organization
+
+orgid = 'orgID_of_org_to_add'
+
+account.add_sharable_organization(token, orgid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.add_sharable_org).
 
 </TabItem>
 <TabItem value="node">
@@ -213,9 +235,15 @@ if err != nil {
 <TabItem value="py">
 
 ```py
-# set org_id here
-account.remove_sharable_organization(token, org_id)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and organization
+
+orgid = 'orgID_of_org_to_remove'
+
+account.remove_sharable_organization(token, orgid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.remove_sharable_org).
 
 </TabItem>
 <TabItem value="node">
@@ -271,9 +299,15 @@ if err != nil {
 <TabItem value="py">
 
 ```py
-# set isEnable (bool) here
-account.set_multilevel_sharing(token, isEnable)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and organization
+
+enable = True # False to disable
+
+account.set_multilevel_sharing(token, enable)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.set_multilevel_sharing).
 
 </TabItem>
 <TabItem value="node">
