@@ -69,7 +69,7 @@ const token = await auth.login(client, userName, userPassword, organization);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -140,7 +140,7 @@ console.log("logoutStatus: " + logoutStatus);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 

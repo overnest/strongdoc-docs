@@ -82,7 +82,7 @@ const encrypted = resp.getCiphertext();
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -198,7 +198,7 @@ response.encryptStream.pipe(writable)
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -287,7 +287,7 @@ const data = await document.decryptDocument(client, docId, ciphertext);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -394,7 +394,7 @@ decryptStream.pipe(writable)
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 

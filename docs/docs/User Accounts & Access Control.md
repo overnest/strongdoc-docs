@@ -61,7 +61,7 @@ const userID = await accounts.registerUser(client, userName, userPassword, userE
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -131,7 +131,7 @@ const count = await accounts.removeUser(client, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -199,7 +199,7 @@ const users = await accounts.listUsers(client);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -273,7 +273,7 @@ const success = await accounts.promoteUser(client, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -342,7 +342,7 @@ const success = await accounts.demoteUser(client, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -358,3 +358,72 @@ Boolean success = account.demoteUser(client, token, userID);
 > You cannot demote a user if they are the last administrator of the organization.
 
 > You can only demote users that are in your organization. 
+
+### Get Account Information
+
+Obtain information about the user account.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
+
+```go
+To be provided
+```
+</TabItem>
+<TabItem value="py">
+
+```py
+To be provided
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+To be provided
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+// Please follow the 'Getting Started' section example on how to create the 'client'.
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+import com.google.protobuf.Timestamp;
+
+final StrongDocAccount account = new StrongDocAccount();
+AccountInfoResponse accountInfoResponse = account.getAccountInfo(client, token);
+
+final Subscription subscription = accountInfoResponse.getSubscription();
+// Subscription type (AWS Marketplace, Credit Card, etc.)<Paste>
+final String type = subscription.getType();
+// State of the subscription (Created, Subscribed, Unsubscribed, etc.)
+final String status = subscription.getStatus();
+
+ArrayList<Payment> payments = accountInfoResponse.getPayments();
+for (Payment payment : payments) {
+    // Timestamp of the payment billing transaction
+    final Timestamp billAt = payment.getBillAt();
+    // Start of the payment period
+    final Timestamp periodStart = payment.getPeriodStart();
+    // End of the payment period
+    final Timestamp periodEnd = payment.getPeriodEnd();
+    // Amount of  payment
+    final double amount = payment.getAmount();
+    // Payment status ("No Payment","Zero Payment","Payment Pending","Payment Success","Payment Failed")
+    final String paymentStatus = payment.getStatus();
+}
+```
+</TabItem>
+</Tabs>

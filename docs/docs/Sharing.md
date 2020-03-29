@@ -57,7 +57,7 @@ const success = await document.shareDocument(client, docId, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -127,7 +127,7 @@ const success = await document.unshareDocument(client, docId, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -194,7 +194,7 @@ const success = await accounts.addSharableOrg(client, orgIdToShareWith);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -258,7 +258,7 @@ const success = await accounts.removeSharableOrg(client, orgId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -323,7 +323,7 @@ const success = await accounts.setMultiLevelSharing(client, setMultiLevelSharing
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 

@@ -82,7 +82,7 @@ const docId = resp.getDocID();
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -159,7 +159,7 @@ const docId = response.getDocID();
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -243,7 +243,7 @@ const file = await document.downloadDocument(client, docId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -337,7 +337,7 @@ downloadStream.pipe(writable)
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -409,7 +409,7 @@ const docsList = docsResp.documentsList;
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -497,7 +497,7 @@ const success = await document.removeDocument(client, docId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
