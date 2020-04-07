@@ -35,9 +35,18 @@ fmt.Println("New user created, userID: [%s]\n", userID)
 <TabItem value="py">
 
 ```py
-# assign your data to userName(string), userPass(string), userEmail(string), isAdmin(bool)
-account.register_user(token, userName, userPass, userEmail, isAdmin)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
+username = "user1"
+password = "password"
+email = "user1@website.com"
+make_admin = True
+
+account.register_user(token, username, password, email, make_admin)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.register_user).
 
 </TabItem>
 <TabItem value="node">
@@ -52,7 +61,7 @@ const userID = await accounts.registerUser(client, userName, userPassword, userE
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -99,10 +108,15 @@ fmt.Printf("User [%s] deleted.\n", userID)
 <TabItem value="py">
 
 ```py
-# set your user_id here
-account.remove_user(token, user_id)
-```
+from strongdoc.api import account
 
+# login and get a token, which identifies a user and an organization
+
+userid = 'userid_to_remove'
+
+account.remove_user(token, userid)
+```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.remove_user).
 </TabItem>
 <TabItem value="node">
 
@@ -117,7 +131,7 @@ const count = await accounts.removeUser(client, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -161,10 +175,17 @@ for i, u := range users {
 <TabItem value="py">
 
 ```py
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
 users = account.list_users(token)
 for user in users:
-    print(user.to_string())
+    print("Username: ", user.username)
+    print("UserID: ", user.userid)
+    print("Is Admin: ", user.is_admin)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.list_users).
 
 </TabItem>
 <TabItem value="node">
@@ -178,7 +199,7 @@ const users = await accounts.listUsers(client);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -230,10 +251,15 @@ fmt.Printf("User [%s] Promoted.\n", userID)
 <TabItem value="py">
 
 ```py
-# set your user_id here
-account.promote_user(token, user_id)
-```
+from strongdoc.api import account
 
+# login and get a token, which identifies a user and an organization
+
+userid = 'userID_of_user_to_promote'
+
+account.promote_user(token, userid)
+```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.promote_user).
 </TabItem>
 <TabItem value="node">
 
@@ -247,7 +273,7 @@ const success = await accounts.promoteUser(client, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -293,9 +319,15 @@ fmt.Printf("User [%s] Demoted.\n", userID)
 <TabItem value="py">
 
 ```py
-# set your user_id here
-account.demote_user(token, user_id)
+from strongdoc.api import account
+
+# login and get a token, which identifies a user and an organization
+
+userid = 'userID_of_user_to_demote'
+
+account.demote_user(token, userid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.demote_user).
 
 </TabItem>
 <TabItem value="node">
@@ -310,7 +342,7 @@ const success = await accounts.demoteUser(client, userId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
@@ -323,6 +355,75 @@ Boolean success = account.demoteUser(client, token, userID);
 </TabItem>
 </Tabs>
 
-> You cannot demote a user if he is the last administrator of the organization.
+> You cannot demote a user if they are the last administrator of the organization.
 
 > You can only demote users that are in your organization. 
+
+### Get Account Information
+
+Obtain information about the user account.
+
+<Tabs
+  defaultValue="go"
+  values={[
+      {label: 'Go', value: 'go'},
+      {label: 'NodeJS', value: 'node'},
+      {label: 'Java', value: 'java'},
+      {label: 'Python', value: 'py'},
+    ]}
+>
+<TabItem value="go">
+
+```go
+To be provided
+```
+</TabItem>
+<TabItem value="py">
+
+```py
+To be provided
+```
+
+</TabItem>
+<TabItem value="node">
+
+```javascript
+To be provided
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+// Please follow the 'Getting Started' section example on how to create the 'client'.
+// on how to create the 'client'.
+import com.strongsalt.strongdoc.sdk.api.responses.*;
+import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
+
+import com.google.protobuf.Timestamp;
+
+final StrongDocAccount account = new StrongDocAccount();
+AccountInfoResponse accountInfoResponse = account.getAccountInfo(client, token);
+
+final Subscription subscription = accountInfoResponse.getSubscription();
+// Subscription type (AWS Marketplace, Credit Card, etc.)<Paste>
+final String type = subscription.getType();
+// State of the subscription (Created, Subscribed, Unsubscribed, etc.)
+final String status = subscription.getStatus();
+
+ArrayList<Payment> payments = accountInfoResponse.getPayments();
+for (Payment payment : payments) {
+    // Timestamp of the payment billing transaction
+    final Timestamp billAt = payment.getBillAt();
+    // Start of the payment period
+    final Timestamp periodStart = payment.getPeriodStart();
+    // End of the payment period
+    final Timestamp periodEnd = payment.getPeriodEnd();
+    // Amount of  payment
+    final double amount = payment.getAmount();
+    // Payment status ("No Payment","Zero Payment","Payment Pending","Payment Success","Payment Failed")
+    final String paymentStatus = payment.getStatus();
+}
+```
+</TabItem>
+</Tabs>

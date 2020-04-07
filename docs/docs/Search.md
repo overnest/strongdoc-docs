@@ -33,11 +33,17 @@ for _, res := range results {
 <TabItem value="py">
 
 ```py
-hits = search.search(token, "bed mounts")
-for hit in hits:
-    print(hit)
-```
+from stongdoc.api import search
 
+# login and get a token
+
+hits = search.search(token, 'search for this')
+
+for hit in hits:
+    print("docID: ", hit.docid)
+    print("score: ", hit.score)
+```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.search.search).
 </TabItem>
 <TabItem value="node">
 
@@ -51,7 +57,7 @@ const results = resp.getHitsList()
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocSearch;
 import com.strongsalt.strongdoc.sdk.api.responses.*;

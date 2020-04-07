@@ -41,13 +41,29 @@ fmt.Printf("Encrypted file, docID: [%s]", docID)
 </TabItem>
 <TabItem value="py">
 
-```py
-# set filename(string)
-with open(filename) as f:
-        file_bytes = f.read()
-doc_id, ciphertext = document.encrypt_document(token, filename, file_bytes)
-```
+To encrypt data it must be of type `bytes`, or a readable subclass of `io.BufferedIOBase` which the data can be streamed from.
 
+```py
+from strongdoc.api import document
+
+# Get bytes somehow, such as like this:
+my_bytes = b'some data'
+
+# Or:
+my_bytes = bytes('some string', 'utf-8')
+
+# Or:
+with open('path/to/file', 'rb') as f:
+    my_bytes = f.read()
+
+# login to get a token
+
+# Then encrypt the data:
+docid, ciphertext = document.encrypt_document(token, doc_name, my_bytes)
+```
+The docID is needed to decrypt the ciphertext.
+
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.encrypt_document).
 </TabItem>
 <TabItem value="node">
 
@@ -66,7 +82,7 @@ const encrypted = resp.getCiphertext();
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -135,27 +151,22 @@ fmt.Printf("Encrypted file, docID: [%s]", docID)
 
 </TabItem>
 <TabItem value="py">
-You must provide an generator function that yields the data of the file.
 
-`EncryptDocumentStream` returns a generator function yielding the ciphertext.
+This will stream the ciphertext to a writable subclass of `io.BufferedIOBase`, such as a file opened in `wb` mode. It can also read the plaintext from a readable subclass of `io.BufferedIOBase`, such as a file opened in `rb` mode. Otherwise you can supply the plaintext data as type `bytes`.
 
 ```py
-def file_chunker(f, chunkSize=10000):
-    while True:
-        data = f.read(chunkSize)
-        if not data:
-            break
-        yield data
+from strongdoc.api import document
 
-file_bytes_generator = file_chunker(open(filepath))
+# login and get a token
 
-doc_id, ciphertext_generator = document.encrypt_document_strea(token, filename, file_bytes_generator
-ciphertext = extract_generator(ciphertext_generator)
-
-print(doc_id)
+with open('path/to/output_file', 'wb') as output_file:
+    with open('path/to/plaintext_file', 'rb') as plaintext:
+        docid = document.encrypt_document_stream(token, doc_name, plaintext, output_file)
 
 ```
+The docID is needed to decrypt the ciphertext.
 
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.encrypt_document_stream).
 </TabItem>
 <TabItem value="node">
 
@@ -187,7 +198,7 @@ response.encryptStream.pipe(writable)
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -248,10 +259,18 @@ fmt.Printf("Received file, bytes: [%v]", plaintext)
 </TabItem>
 <TabItem value="py">
 
+This will decrypt the ciphertext returned from an encrypt function call, and return the plaintext as type `bytes`. The ciphertext can be type `bytes` as returned by `encrypt_document` or a readable subclass of `io.BufferedIOBase`.
+
 ```py
-# set doc_id(string)
-decrypted_bytes = document.decrypt_document(token, doc_id, ciphertext)
+from strongdoc.api import document
+
+# login and get a token
+
+# encrypt a document and save the docid and the ciphertext
+
+decrypted_bytes = document.decrypt_document(token, docid, ciphertext)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.decrypt_document).
 
 </TabItem>
 <TabItem value="node">
@@ -268,7 +287,7 @@ const data = await document.decryptDocument(client, docId, ciphertext);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -335,17 +354,21 @@ fmt.Printf("Received file, bytes: [%v]", plaintext)
 
 </TabItem>
 <TabItem value="py">
-You must provide an generator function that yields the data of the file. 
 
-decryptDocumentStream returns a generator function yielding the plaintext.
+This will decrypt ciphertext from an encrypt function call and write the plaintext to a writable subclass of `io.BufferedIOBase`, such as a file opened in `wb` mode. The ciphertext can be of type `bytes` as returned by `encrypt_document`, or a readable subclass of `io.BufferedIOBase`, such as a file opened in `rb` mode.
 
 ```py
-# set filename(string) and ciphertext_generator, which yields the data of the file
-plaintext_generator = document.decrypt_document_stream(token, filename, ciphertext_generator)
-plaintext = b''
-for chunk in plaintext_generator:
-    plaintext += chunk
+from strongdoc.api import document
+
+# save the docid and ciphertext from an encrypt function call
+
+# login and get a token
+
+with open('path/to/output_file', 'wb') as output_file:
+    with open('path/to/ciphertext_file', 'rb') as ciphertext:
+        document.decrypt_document_stream(token, docid, ciphertext, output_file)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.decrypt_document_stream).
 
 </TabItem>
 <TabItem value="node">
@@ -371,7 +394,7 @@ decryptStream.pipe(writable)
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 

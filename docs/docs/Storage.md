@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 ## Uploading Documents
 
-With our storage service permits you to securely encrypt and store your documents with Strongdoc.
+Our storage service allows you to securely encrypt and store your documents with Strongdoc.
 
 ### Upload Document
 
@@ -41,12 +41,29 @@ fmt.Printf("Uploaded document, docID: [%s]", docID)
 </TabItem>
 <TabItem value="py">
 
+To upload a document the data must be of type `bytes`, or a readable subclass of `io.BufferedIOBase` which the data can be streamed from.
+
 ```py
-# set filepath, and filename here
-with open(filepath, "rb") as f:
-    file_bytes = f.read()
-doc_id = document.upload_document(token, filename, file_bytes)
+from strongdoc.api import document
+
+# Get bytes somehow, such as like this:
+my_bytes = b'some data'
+
+# Or:
+my_bytes = bytes('some string', 'utf-8')
+
+# Or:
+with open('path/to/file', 'rb') as f:
+    my_bytes = f.read()
+
+# login to get a token
+
+# Then upload the data:
+docid = document.upload_document(token, doc_name, my_bytes)
 ```
+The docID is needed to download the document.
+
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.upload_document).
 
 </TabItem>
 <TabItem value="node">
@@ -65,7 +82,7 @@ const docId = resp.getDocID();
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -111,20 +128,19 @@ fmt.Printf("Uploaded document, docID: [%s]\n", docID)
 </TabItem>
 <TabItem value="py">
 
-You must provide an generator function that yields the data of the file.
+To upload a document from a stream, the stream must be a readable subclass of `io.BufferedIOBase`, such as a file opened in `rb` mode.
 
 ```py
-def file_chunker(f, chunkSize=10000):
-    while True:
-        data = f.read(chunkSize)
-        if not data:
-            break
-        yield data
+from strongdoc.api import document
 
-file_bytes_generator = file_chunker(open(filepath))
+# login and get a token
 
-doc_id = document.upload_document_stream(token, filename, file_bytes_generator)
+with open('path/to/file', 'rb') as doc_file:
+    docid = document.upload_document(token, doc_name, doc_file)
 ```
+The docID is needed to download the document.
+
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.upload_document).
 
 </TabItem>
 <TabItem value="node">
@@ -143,7 +159,7 @@ const docId = response.getDocID();
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -201,10 +217,18 @@ fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
 
 </TabItem>
 <TabItem value="py">
+This will download a document and return the data as type `bytes`.
 
 ```py
-down_bytes = document.download_document_stream(token, doc_id)
+from strongdoc.api import document
+
+# login and get a token
+
+# upload a document and save the docid
+
+doc_bytes = document.download_document(token, docid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.download_document).
 
 </TabItem>
 <TabItem value="node">
@@ -219,7 +243,7 @@ const file = await document.downloadDocument(client, docId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -277,16 +301,19 @@ fmt.Printf("Received file, bytes: [%v]\n", rcvdBytes)
 </TabItem>
 <TabItem value="py">
 
-You must provide an generator function that yields the data of the file. 
-
-`downloadDocumentStream` returns a generator yielding the downloaded document.
+You can also download a document by streaming it to a writable subclass of `io.BufferedIOBase`, such as a file opened in `wb` mode.
 
 ```py
-down_bytes = b''
-down_chunk_gen = document.download_document_stream(token, upload_docid)
-for chunk in down_chunk_gen:
-    down_bytes += chunk
+from strongdoc.api import document
+
+# login and get a token
+
+# upload a document and save the docid
+
+with open('path/to/output_file', 'wb') as doc_file:
+    document.download_document_stream(token, docid, doc_file)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.download_document_stream).
 
 </TabItem>
 <TabItem value="node">
@@ -310,7 +337,7 @@ downloadStream.pipe(writable)
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
@@ -353,11 +380,21 @@ for i, doc := range docs {
 </TabItem>
 <TabItem value="py">
 
+This will return a list of `DocumentMetadata`.
+
 ```py
-users = account.list_users(token)
-for user in users:
-    print(user.to_string())
+from strongdoc.api import document
+
+# login and get a token
+
+doc_list = document.list_documents(token)
+
+for doc in doc_list:
+    print('DocID: ', doc.docid)
+    print('Doc Name: ', doc.doc_name)
+    print('Doc Size: ', doc.size)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.list_documents).
 
 </TabItem>
 <TabItem value="node">
@@ -372,7 +409,7 @@ const docsList = docsResp.documentsList;
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
@@ -437,8 +474,15 @@ if err != nil {
 <TabItem value="py">
 
 ```py
-document.remove_document(token, doc_id)
+from strongdoc.api import document
+
+# login and get a token
+
+# upload or encrypt a document and save the docid
+
+document.remove_document(token, docid)
 ```
+For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.document.remove_document).
 
 </TabItem>
 <TabItem value="node">
@@ -453,7 +497,7 @@ const success = await document.removeDocument(client, docId);
 <TabItem value="java">
 
 ```java
-// Please follow the Register Organization example in the 'Getting Started' section
+// Please follow the 'Getting Started' section example on how to create the 'client'.
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 

@@ -47,11 +47,7 @@ const config = configResponse.getConfiguration();
 <TabItem value="java">
 
 ```java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.print("Hello World!")
-    }
-}
+To be provided
 ```
 </TabItem>
 </Tabs>
