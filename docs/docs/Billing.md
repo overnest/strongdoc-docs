@@ -18,19 +18,8 @@ List all items of the cost breakdown and also other details such as the billing 
 >
 <TabItem value="go">
 
-Here's what this Billing object contains:
-
-| Name          | Method          | Returns           | Description                                                       |
-|---------------|-----------------|-------------------|-------------------------------------------------------------------|
-| CurrentPeriod | CurrentPeriod() | *BillingPeriod    | Current Billing Period                                            |
-| TotalCost     | TotalCost()     | int32             | Total Cost incurred                                               |
-| Documents     | Documents()     | *BillingDocuments | Encapsulates total cost and size of the Documents stored          |
-| Index         | Index()         | *BillingIndex     | Encapsulates total cost and size of the Indexes stored            |
-| Traffic       | Traffic()       | *BillingTraffic   | Encapsulates total cost and size of incoming and outgoing traffic |
-| NextPeriod    | NextPeriod()    | *BillingPeriod    | Next Billing Period                                               |
-
 ```go
-billingDetails, err := api.Billing(token)
+billingDetails, err := api.GetBillingDetails()
 if err != nil {
     log.Printf("failed to get Billing Details: %s", err)
     os.Exit(1)
@@ -151,7 +140,16 @@ Obtain the list of billing frequencies (past, current and future).
 <TabItem value="go">
 
 ```go
-To be provided
+    frequencyList, err := api.GetBillingFrequencyList()
+    if err != nil {
+        log.Printf("failed to get Billing Frequency List: %s", err)
+        os.Exit(1)
+    }
+
+    for i, freq := range frequencyList {
+        fmt.Printf("Frequency[%v]: %v\n", i, freq)
+    }
+}
 ```
 </TabItem>
 
@@ -219,7 +217,12 @@ Change the next billing frequency.
 <TabItem value="go">
 
 ```go
-To be provided
+    newFrequency, err := api.SetNextBillingFrequency(proto.TimeInterval_MONTHLY, time.Now().AddDate(0, 2, 0))
+    if err != nil {
+        log.Printf("failed to get Set Next Billing Frequency: %s", err)
+        os.Exit(1)
+    }
+	fmt.Printf("New Frequency: %v\n", newFrequency)
 ```
 </TabItem>
 
@@ -285,7 +288,12 @@ Obtain the list of large traffic usages.
 <TabItem value="go">
 
 ```go
-To be provided
+	largeTraffic, err := api.GetLargeTraffic(time.Now())
+    if err != nil {
+        log.Printf("Failed to get large traffic: %s", err)
+        os.Exit(1)
+    }
+	fmt.Println("Large Traffic:", largeTraffic)
 ```
 </TabItem>
 

@@ -23,12 +23,11 @@ var password string // fill in new user's info here
 var email string // fill in new user's info here
 var admin bool // indicate if the new user should be admin here
 
-userID, err := api.RegisterUser(token, username, password, email, admin)
+userID, err := api.RegisterUser(username, password, email, admin)
 if err != nil {
     log.Printf("failed to Register User: %s", err)
     os.Exit(1)
 }
-fmt.Println("New user created, userID: [%s]\n", userID)
 ```
 
 </TabItem>
@@ -77,6 +76,7 @@ final String userID = account.registerUser(client, token, username, password, em
 </TabItem>
 </Tabs>
 
+> This can only be called by an administrator of the organization.
 
 ## Delete User
 
@@ -96,12 +96,11 @@ Deletes a user in the organization.
 ```go
 var userID string // set user's UserID here
 
-count, err := api.RemoveUser(token, userID)
+count, err := api.RemoveUser(userID)
 if err != nil {
     log.Printf("failed to Remove User: %s", err)
     os.Exit(1)
 }
-fmt.Printf("User [%s] deleted.\n", userID)
 ```
 
 </TabItem>
@@ -144,6 +143,7 @@ final long removeCount = account.removeUser(client, token, userID);
 </TabItem>
 </Tabs>
 
+> This can only be called by an administrator of the organization.
 
 ## List Users
 
@@ -161,12 +161,12 @@ Lists all the users in the organization of the current user.
 <TabItem value="go">
 
 ```go
-users, err := ListUsers(token)
+users, err := ListUsers()
 if err != nil {
-    log.Printf("failed to List User: %s", err)
+    log.Printf("failed to List Users: %s", err)
     os.Exit(1)
 }
-for i, u := range users {
+for i, user := range users {
     fmt.Printf("%d | UserName: [%s], UserID: [%s], IsAdmin: [%t]\n--------\n", i, u.UserName, u.UserID, u.IsAdmin)
 }
 ```
@@ -239,7 +239,7 @@ Promotes a user in the organization to the Administrator level.
 ```go
 var userID string // set user's UserID here
 
-ok, err := api.PromoteUser(token, userID)
+ok, err := api.PromoteUser(userID)
 if err != nil {
     log.Printf("failed to Promote User: %s", err)
     os.Exit(1)
@@ -257,7 +257,7 @@ from strongdoc.api import account
 
 userid = 'userID_of_user_to_promote'
 
-account.promote_user(token, userid)
+account.promote_user(userid)
 ```
 For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.account.promote_user).
 </TabItem>
@@ -286,7 +286,7 @@ final Boolean success = account.promoteUser(client, token, userID);
 </TabItem>
 </Tabs>
 
-> You can only promote users that are in your organization. 
+> This can only be called by an administrator of the organization.
 
 ### Demote User
 
@@ -306,7 +306,7 @@ Demotes a user in the organization from the Administrator level.
 ```go
 var userID string // set user's UserID here
 
-ok, err := api.DemoteUser(token, userID)
+ok, err := api.DemoteUser(userID)
 if err != nil {
     log.Printf("failed to Demote User: %s", err)
     os.Exit(1)
@@ -357,7 +357,8 @@ Boolean success = account.demoteUser(client, token, userID);
 
 > You cannot demote a user if they are the last administrator of the organization.
 
-> You can only demote users that are in your organization. 
+> This can only be called by an administrator of the organization.
+
 
 ### Get Account Information
 

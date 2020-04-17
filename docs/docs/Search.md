@@ -19,7 +19,7 @@ The document ID and its associated score is returned. The higher the score, the 
 <TabItem value="go">
 
 ```go
-results, err := Search(token, "bed")
+results, err := Search("bed")
 if err != nil {
     log.Printf("search failed: %s", err)
     return

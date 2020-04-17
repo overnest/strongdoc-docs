@@ -30,7 +30,6 @@ if err != nil {
 fmt.Println("Removed Organization successfully.")
 ```
 
-
 </TabItem>
 <TabItem value="py">
 
@@ -78,4 +77,7 @@ final boolean isPostponed = removeOrgResponse.isPostponed();
 ```
 </TabItem>
 </Tabs>
+
+> This can only be called by an administrator of the organization.
+
 

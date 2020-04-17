@@ -18,23 +18,18 @@ import TabItem from '@theme/TabItem';
 
 
 ```go
-// set your credentials here
-var userID string
-var password string
-var orgID string
 
-token, err := api.Login(userID, password, orgID)
+const userID     = "userID@organization.com"
+const userPasswd = "userPassword"
+const orgID      = "organizationID"
+
+token, err := api.Login(userID, userPasswd, orgID)
 if err != nil {
-    log.Printf("failed to log in: %s", err)
+    log.Printf("failed to Login: %s", err)
     os.Exit(1)
 }
-fmt.Printf("Successfully logged in.\n")
 ```
-
-Alternatively, you can first do the above and run `go get all`.
-
-
-**Link to API Github Repository**: https://github.com/overnest/strongdoc-go-sdk
+The Go client does not require the user to keep the `token` object around. This token is automatically stored in the global singlton client object. Once the login is successful, the user can start calling all other APIs.
 
 </TabItem>
 <TabItem value="py">
@@ -48,6 +43,13 @@ token = login.login(userid, password, orgid)
 # token (str) is a required argument for all functions which require authentication
 ```
 For more details, read the [Python Documentation](https://strongdoc-python-sdk.readthedocs.io/en/latest/strongdoc.api.html#strongdoc.api.login.login).
+
+The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
+
+Once you log in, **keep your Bearer Token safe**, as anyone who has it
+will be authenticated to do anything that you can. For instance, do not share them in publically accessible areas such as Github or in client code.
+
+Every method requires authentication except this one, `Login` and `RegisterOrganization`.ß
 
 </TabItem>
 <TabItem value="node">
@@ -65,6 +67,13 @@ const userName     = "userUserName",
 const token = await auth.login(client, userName, userPassword, organization);
 ```
 
+The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
+
+Once you log in, **keep your Bearer Token safe**, as anyone who has it
+will be authenticated to do anything that you can. For instance, do not share them in publically accessible areas such as Github or in client code.
+
+Every method requires authentication except this one, `Login` and `RegisterOrganization`.
+
 </TabItem>
 <TabItem value="java">
 
@@ -81,8 +90,6 @@ final String orgID;
 final StrongDocAccount account = new StrongDocAccount();
 final String token = account.login(client, orgID, userID, password);
 ```
-</TabItem>
-</Tabs>
 
 The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
 
@@ -90,6 +97,8 @@ Once you log in, **keep your Bearer Token safe**, as anyone who has it
 will be authenticated to do anything that you can. For instance, do not share them in publically accessible areas such as Github or in client code.
 
 Every method requires authentication except this one, `Login` and `RegisterOrganization`.
+</TabItem>
+</Tabs>
 
 ## Logout
 
@@ -107,14 +116,16 @@ Once you finish your session, make sure to `Logout`. This will retire the key fr
 <TabItem value="go">
 
 ```go
-var token string // set your token here
-
-err := api.Logout(token)
+err := api.Logout()
 if err != nil {
-    log.Printf("Failed to log out: %s\n", err)
+    log.Printf("failed to Logout: %s", err)
     os.Exit(1)
 }
 ```
+
+Calling `logout` automatically erases the authentication token stored in the global singleton StrongDoc client. It also recreates a record on the server that prevents access with the previous token.
+
+**Link to API Github Repository**: https://github.com/overnest/strongdoc-go-sdk
 
 </TabItem>
 <TabItem value="py">

@@ -30,7 +30,7 @@ var err error
 var docID string
 
 fileBytes, err = ioutil.ReadFile(filename)
-docID, err = api.UploadDocument(token, filename, fileBytes)
+docID, err = api.UploadDocument(filename, fileBytes)
 if err != nil {
     log.Printf("Can not upload document: %v", err)
     os.Exit(1)
@@ -118,7 +118,7 @@ var filename string // set your filename here
 var fileReader io.Reader // provide an io.Reader object (for instance, an os.File)
 var err error
 
-docID, err := api.UploadDocumentStream(token, filename, fileReader)
+docID, err := api.UploadDocumentStream(filename, fileReader)
 if err != nil {
     log.Printf("Can not upload document: %v", err)
     os.Exit(1)
@@ -207,7 +207,7 @@ var docID string // use docID for the file you want
 var rcvdBytes []byte
 var err error
 
-rcvdBytes, err = api.DownloadDocument(token, docID)
+rcvdBytes, err = api.DownloadDocument(docID)
 if err != nil {
     log.Printf("Can not download document: %v", err)
     os.Exit(1)
@@ -283,7 +283,7 @@ var docID string // set docID of your file here
 var dataStream io.Reader
 var err error
 
-dataStream, err := DownloadDocumentStream(token, docID)
+dataStream, err := DownloadDocumentStream(docID)
 buf := make([]byte, blockSize)
 rcvdBytes := make([]byte,0)
 for err == nil {
@@ -367,7 +367,7 @@ This function allows you to list the documents that you can access. The return o
 <TabItem value="go">
 
 ```go
-docs, err := ListDocuments(token)
+docs, err := ListDocuments()
 if err != nil {
     log.Printf("err with ListDocuments: %s", err)
     return
@@ -463,7 +463,7 @@ Attempting to remove a nonexistent document throws an error.
 ```go
 var docID string // set docID of the document here
 
-err := RemoveDocument(token, docID)
+err := RemoveDocument(docID)
 if err != nil {
     log.Printf("err with RemoveDocument: %s", err)
     return

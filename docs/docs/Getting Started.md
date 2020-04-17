@@ -27,20 +27,31 @@ There is only one prerequisite, and it is that you have your preferred language 
 
 The API is available as a Go Module. To use it, run
 
-`go get github.com/overnest/strongdoc-go@v0.1.10`
+`go get github.com/overnest/strongdoc-go-sdk`
 
 Then, import it at the top of your files:
 
 ```go
 import (
     // other imports
-    "github.com/overnest/strongdoc-go-sdk/api"`
+    "github.com/overnest/strongdoc-go-sdk/client"
+    "github.com/overnest/strongdoc-go-sdk/api"
     // even more imports
 )
 ```
 
-Alternatively, you can first do the above and run `go get all`.
+The user can initialize a singleton StrongDoc client as such:
 
+```go
+    // client.DEFAULT points to the default production StrongDoc service endpoint
+	mgr, err := client.InitStrongDocManager(client.DEFAULT, false)
+	if err != nil {
+        log.Printf("failed to initialize StrongDoc manager: %s", err)
+        os.Exit(1)
+    }
+```
+
+Note that since this is a singleton, the returned `mgr` object does not have to be stored. All API calls will automatically obtain the singleton StrongDoc client. 
 
 **Link to API Github Repository**: https://github.com/overnest/strongdoc-go-sdk
 
