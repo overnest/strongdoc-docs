@@ -19,7 +19,7 @@ The document ID and its associated score is returned. The higher the score, the 
 <TabItem value="go">
 
 ```go
-results, err := Search("bed")
+results, err := Search(client, "bed")
 if err != nil {
     log.Printf("search failed: %s", err)
     return
@@ -66,7 +66,7 @@ import com.strongsalt.strongdoc.sdk.api.responses.*;
 final String queryWords;
 
 final StrongDocSearch search = new StrongDocSearch();
-final SearchDocumentResponse searchResponse = search.runSearch(client, token, queryWords);
+final SearchDocumentResponse searchResponse = search.runSearch(client, queryWords);
 final List<SearchDocumentResult> hitsList = searchResponse.getHitsList();
 for (SearchDocumentResult result : hitsList) {
     String docID = result.getDocID();

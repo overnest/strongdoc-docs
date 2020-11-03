@@ -30,7 +30,7 @@ var ciphertext string
 
 // Read the entire file into a byte slice
 fileBytes, err = ioutil.ReadFile(filename)
-docID, ciphertext, err := api.EncryptDocument(filename, fileBytes)
+docID, ciphertext, err := api.EncryptDocument(client, filename, fileBytes)
 if err != nil {
     log.Printf("Can not encrypt document: %s", err)
     os.Exit(1)
@@ -94,7 +94,7 @@ final String plaintext;
 
 final StrongDocDocument document = new StrongDocDocument();
 final EncryptDocumentResponse encryptDocResponse = document.encryptDocument(
-    client, token, filename, plaintext.getBytes());
+    client, filename, plaintext.getBytes());
 final String docID = encryptDocResponse.getDocID();
 final byte[] ciphertext = encryptDocResponse.getCiphertext();
 ```
@@ -135,7 +135,7 @@ if err != nil {
 }
 defer plainTextFile.Close()
 
-cipherTextStream, docID, err := api.EncryptDocumentStream(plaintextFileName, plainTextFile)
+cipherTextStream, docID, err := api.EncryptDocumentStream(client, plaintextFileName, plainTextFile)
 if err != nil {
     log.Printf("Can not encrypt document: %s", err)
     os.Exit(1)
@@ -216,10 +216,10 @@ final String plaintext;
 
 final StrongDocDocument document = new StrongDocDocument();
 InputStream inputData = new ByteArrayInputStream(plaintext.getBytes());
-EncryptDocumentResponse encryptDocResponse = document.encryptDocumentStream(
-    client, token, filename, inputData);
-final String docID = encryptDocResponse.getDocID();
-final byte[] ciphertext = encryptDocResponse.getCiphertext();
+EncryptDocumentResponse resp = document.encryptDocumentStream(
+    client, filename, inputData);
+final String docID = resp.getDocID();
+final byte[] ciphertext = ByteStreams.toByteArray(resp.getCipherStream());
 ```
 </TabItem>
 </Tabs>
@@ -253,7 +253,7 @@ var err error
 var ciphertext []byte // load ciphertext of your document here
 var plaintext []byte
 
-plaintext, err = DecryptDocument(docID, ciphertext)
+plaintext, err = api.DecryptDocument(client, docID, ciphertext)
 if err != nil {
     log.Printf("Can not decrypt document: %s", err)
     os.Exit(1)
@@ -302,7 +302,7 @@ final String docID;
 final byte[] ciphertext;
 
 final StrongDocDocument document = new StrongDocDocument();
-byte[] decryptedData = document.decryptDocument(client, token, docID, ciphertext);
+byte[] decryptedData = document.decryptDocument(client, docID, ciphertext);
 ```
 </TabItem>
 </Tabs>
@@ -337,7 +337,7 @@ var cipherStream io.Reader // set ciphertext of your document here
 var err error
 var plaintext []byte
 
-plainStream, err := api.DecryptDocumentStream(docID, cipherStream)
+plainStream, err := api.DecryptDocumentStream(client, docID, cipherStream)
 if err != nil {
     log.Printf("Can not decrypt document: %s", err)
     os.Exit(1)
@@ -410,7 +410,8 @@ final byte[] ciphertext;
 
 final StrongDocDocument document = new StrongDocDocument();
 InputStream encryptedStream = new ByteArrayInputStream(ciphertext);
-byte[] decryptedBytes = document.decryptDocumentStream(client, token, docID, encryptedStream);
+InputStream plainStream = document.decryptDocumentStream(client, docID, encryptedStream);
+final byte[] plaintext = ByteStreams.toByteArray(plainStream);
 ```
 </TabItem>
 </Tabs>

@@ -44,14 +44,23 @@ The user can initialize a singleton StrongDoc client as such:
 
 ```go
     // client.DEFAULT points to the default production StrongDoc service endpoint
-	mgr, err := client.InitStrongDocManager(client.DEFAULT, false)
+    // client.SANDBOX points to a sandbox instance for testing purposes
+	sdc, err = client.InitStrongDocClient(client.DEFAULT, false)
 	if err != nil {
-        log.Printf("failed to initialize StrongDoc manager: %s", err)
+        log.Printf("failed to initialize StrongDoc client: %s", err)
         os.Exit(1)
     }
 ```
 
-Note that since this is a singleton, the returned `mgr` object does not have to be stored. All API calls will automatically obtain the singleton StrongDoc client. 
+Note that since this is a singleton, and the resulting client can be retrieved as such:
+
+```go
+	sdc, err = client.GetStrongDocClient()
+	if err != nil {
+        log.Printf("Can not obtain singleton StrongDocClient: %s", err)
+        os.Exit(1)
+    }
+```
 
 **Link to API Github Repository**: https://github.com/overnest/strongdoc-go-sdk
 
@@ -90,9 +99,19 @@ The API is available as module on npm. To use it, run
 Then, import the modules you need at the top of your files:
 
 ```javascript
-const {StrongDoc, auth, accounts, documents, search, billing} = require('strongdoc-nodejs-sdk')
+const {StrongDoc, auth, accounts, documents, search, billing} = 
+    require('strongdoc-nodejs-sdk')
 ```
 
+Use the following code to initialize the client to the proper StrongDoc service endpoint:
+
+```javascript
+// StrongDoc.ServciceLocation.DEFAULT is the default StrongDoc 
+//                                    production service end point.
+// StrongDoc.ServciceLocation.SANDBOX is the sandbox StrongDoc 
+//                                    service endpoint used for testing.
+const client = new StrongDoc(StrongDoc.ServciceLocation.DEFAULT);
+```
 </TabItem>
 <TabItem value="java">
 
@@ -124,22 +143,18 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocBilling;
 import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.StrongDocSearch;
 import com.strongsalt.strongdoc.sdk.client.StrongDocServiceClient;
+import com.strongsalt.strongdoc.sdk.client.StrongDocServiceClient.ServiceLocation;
 ```
 
 ### Example of how to create a client:
 
 ```java
-import io.netty.handler.ssl.SslContext;
+import com.strongsalt.strongdoc.sdk.client.StrongDocServiceClient;
+import com.strongsalt.strongdoc.sdk.client.StrongDocServiceClient.ServiceLocation;
 
-public final static String HOST = "api.strongsalt.com";
-public final static int PORT = 9090;
-
-final SslContext sslContext =
-    StrongDocServiceClient.buildSslContext("./certs/grpc.root.pem",
-                                           "./certs/grpc.cert.pem",
-                                           null);
-
-final StrongDocServiceClient client = new StrongDocServiceClient(sslContext, HOST, PORT);
+// Use ServiceLocation.SANDBOX to reach a sandbox testing environment
+final StrongDocServiceClient client = StrongDocServiceClient.
+    createStrongDocServiceClient(ServiceLocation.PRODUCTION);
 ```
 </TabItem>
 </Tabs>
@@ -150,23 +165,18 @@ Before logging in, ensure that you have an account.
 If you do not have one, what you need to do depends on 
 your role in your organization:
 
-### A. You are a **regular user**
+### A. Regular Users
 
-If you are a regular user, you need to ask your organization administrator 
-to help you set up an account. They should give you:  
+If you are a regular user, your organization administrator must
+help you set up an account. They should give you:  
 - A `userID`  
 - A `password`   
 - The `orgID` belonging to your organization  
 
-### B. You are an **organization administrator**
+### B. Organization Administrator
 
-Again, this depends. If...
+For the first administrator of the organization, the administrator
+account is created with the organization. Subsequent administrator
+accounts need to be provisioned by existing administrators of the
+organization.
 
-#### I. You are not the first Administrator
-
-If you are an admin of your organization and do not have an account,
-contact an existing administrator create one for you. 
-
-> **Warning**, if you are the only admin and you lose your credentials,
-> please contact us for assistance.
-> 

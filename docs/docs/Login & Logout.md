@@ -18,19 +18,18 @@ import TabItem from '@theme/TabItem';
 
 
 ```go
-
 const userID     = "userID@organization.com"
 const userPasswd = "userPassword"
 const orgID      = "organizationID"
 
-token, err := api.Login(userID, userPasswd, orgID)
+// client is the previous initialized client
+token, err := api.Login(client, userID, userPasswd, orgID)
 if err != nil {
     log.Printf("failed to Login: %s", err)
     os.Exit(1)
 }
 ```
-The Go client does not require the user to keep the `token` object around. This token is automatically stored in the global singlton client object. Once the login is successful, the user can start calling all other APIs.
-
+The returned token is automatically stored in the passed in `client` object. This token is automatically used for subsequent API calls that requires authentication.
 </TabItem>
 <TabItem value="py">
 
@@ -57,7 +56,8 @@ Every method requires authentication except this one, `Login` and `RegisterOrgan
 ```javascript
 const { StrongDoc, auth } = require('strongdoc-nodejs-sdk');
 
-const client = new StrongDoc(StrongDoc.ServciceLocation.LOCAL);
+// Use StrongDoc.ServciceLocation.SANDBOX to access the sandbox location used for testing
+const client = new StrongDoc(StrongDoc.ServciceLocation.DEFAULT);
 
 const userName     = "userUserName", 
       userPassword = "userUserPassword",
@@ -67,10 +67,7 @@ const userName     = "userUserName",
 const token = await auth.login(client, userName, userPassword, organization);
 ```
 
-The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
-
-Once you log in, **keep your Bearer Token safe**, as anyone who has it
-will be authenticated to do anything that you can. For instance, do not share them in publically accessible areas such as Github or in client code.
+The `Login` function returns `token`, a string that acts as an identifier for the session. This token is automatically stored in the passed in client object. Future API calls using this client object will automatically apply the stored token.
 
 Every method requires authentication except this one, `Login` and `RegisterOrganization`.
 
@@ -91,7 +88,7 @@ final StrongDocAccount account = new StrongDocAccount();
 final String token = account.login(client, orgID, userID, password);
 ```
 
-The `Login` function returns `token`, a string that acts as an identifier for the session. Most requests following this *must* contain it.
+The `Login` function returns `token`, a string that acts as an identifier for the session. This token is automatically stored in the passed in client object. Future API calls using this client object will automatically apply the stored token.
 
 Once you log in, **keep your Bearer Token safe**, as anyone who has it
 will be authenticated to do anything that you can. For instance, do not share them in publically accessible areas such as Github or in client code.
@@ -116,14 +113,15 @@ Once you finish your session, make sure to `Logout`. This will retire the key fr
 <TabItem value="go">
 
 ```go
-err := api.Logout()
+// client is the client object used for login
+err := api.Logout(client)
 if err != nil {
     log.Printf("failed to Logout: %s", err)
     os.Exit(1)
 }
 ```
 
-Calling `logout` automatically erases the authentication token stored in the global singleton StrongDoc client. It also recreates a record on the server that prevents access with the previous token.
+Calling `logout` automatically erases the authentication token stored in the StrongDoc client. It also recreates a record on the server that prevents access with the previous token.
 
 **Link to API Github Repository**: https://github.com/overnest/strongdoc-go-sdk
 
@@ -143,7 +141,7 @@ For more details, read the [Python Documentation](https://strongdoc-python-sdk.r
 <TabItem value="node">
 
 ```javascript
-const logoutStatus = await auth.logout(client, token);
+const logoutStatus = await auth.logout(client);
 console.log("logoutStatus: " + logoutStatus);
 ```
 
@@ -155,11 +153,8 @@ console.log("logoutStatus: " + logoutStatus);
 // on how to create the 'client'.
 import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 
-// Set your token here
-final String token;
-
 final StrongDocAccount account = new StrongDocAccount();
-String status = account.logout(client, token);
+String status = account.logout(client);
 ```
 </TabItem>
 </Tabs>

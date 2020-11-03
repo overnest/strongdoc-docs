@@ -21,7 +21,7 @@ that you only share documents with users that you trust.
 <TabItem value="go">
 
 ```go
-ok, err := ShareDocument(docID, otherUserID)
+ok, err := ShareDocument(client, docID, otherUserID)
 if err != nil {
     fmt.Printf("Could not share: %v", err)
     os.Exit(1)
@@ -67,7 +67,7 @@ final String docID;
 final String userID;
 
 final StrongDocDocument document = new StrongDocDocument();
-Boolean success = document.shareDocument(client, token, docID, userID);
+Boolean success = document.shareDocument(client, docID, userID);
 ```
 </TabItem>
 </Tabs>
@@ -91,7 +91,7 @@ This allows you to unshare documents previously shared.
 <TabItem value="go">
 
 ```go
-ok, err := UnshareDocument(docID, otherUserID)
+ok, err := UnshareDocument(client, docID, otherUserID)
 if err != nil {
     fmt.Printf("Could not unshare: %v", err)
     os.Exit(1)
@@ -137,7 +137,7 @@ final String docID;
 final String userID;
 
 final StrongDocDocument document = new StrongDocDocument();
-long unsharedCount = document.unshareDocument(client, token, docID, userID);
+long unsharedCount = document.unshareDocument(client, docID, userID);
 ```
 </TabItem>
 </Tabs>
@@ -160,7 +160,7 @@ administrators must first add those organizations to a whitelist with this funct
 <TabItem value="go">
 
 ```go
-ok, err := AddSharableOrg(orgID)
+ok, err := AddSharableOrg(client, orgID)
 if err != nil {
     fmt.Printf("Could not Add Sharable Organization: %v", err)
     os.Exit(1)
@@ -202,7 +202,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 final String orgID;
 
 final StrongDocAccount account = new StrongDocAccount();
-Boolean success = account.addSharableOrg(client, token, orgID);
+Boolean success = account.addSharableOrg(client, orgID);
 ```
 </TabItem>
 </Tabs>
@@ -224,7 +224,7 @@ Administrators may also remove organizations from the whitelist with `RemoveShar
 <TabItem value="go">
 
 ```go
-ok, err := RemoveSharableOrg(orgID)
+ok, err := RemoveSharableOrg(client, orgID)
 if err != nil {
     fmt.Printf("Could not Remove Sharable Organization: %v", err)
     os.Exit(1)
@@ -266,7 +266,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 final String orgID;
 
 final StrongDocAccount account = new StrongDocAccount();
-Boolean success = account.removeSharableOrg(client, token, orgID);
+Boolean success = account.removeSharableOrg(client, orgID);
 ```
 </TabItem>
 </Tabs>
@@ -288,7 +288,7 @@ Updates your organization's multi-level sharing settings.
 <TabItem value="go">
 
 ```go
-ok, err := SetMultiLevelSharing("true")
+ok, err := SetMultiLevelSharing(client, "true")
 if err != nil {
     fmt.Printf("Could not Set Multi-Level Sharing: %v", err)
     os.Exit(1)
@@ -331,7 +331,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 final boolean isEnable;
 
 final StrongDocAccount account = new StrongDocAccount();
-Boolean success = account.setMultiLevelSharing(client, token, isEnable);
+Boolean success = account.setMultiLevelSharing(client, isEnable);
 ```
 </TabItem>
 </Tabs>

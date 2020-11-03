@@ -23,7 +23,7 @@ var password string // fill in new user's info here
 var email string // fill in new user's info here
 var admin bool // indicate if the new user should be admin here
 
-userID, err := api.RegisterUser(username, password, email, admin)
+userID, err := api.RegisterUser(client, username, password, email, admin)
 if err != nil {
     log.Printf("failed to Register User: %s", err)
     os.Exit(1)
@@ -71,7 +71,7 @@ final String email;
 final boolean admin;
 
 final StrongDocAccount account = new StrongDocAccount();
-final String userID = account.registerUser(client, token, username, password, email, admin);
+final String userID = account.registerUser(client, username, password, email, admin);
 ```
 </TabItem>
 </Tabs>
@@ -96,7 +96,7 @@ Deletes a user in the organization.
 ```go
 var userID string // set user's UserID here
 
-count, err := api.RemoveUser(userID)
+count, err := api.RemoveUser(client, userID)
 if err != nil {
     log.Printf("failed to Remove User: %s", err)
     os.Exit(1)
@@ -138,7 +138,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 final String userID;
 
 final StrongDocAccount account = new StrongDocAccount();
-final long removeCount = account.removeUser(client, token, userID);
+final long removeCount = account.removeUser(client, userID);
 ```
 </TabItem>
 </Tabs>
@@ -161,7 +161,7 @@ Lists all the users in the organization of the current user.
 <TabItem value="go">
 
 ```go
-users, err := ListUsers()
+users, err := api.ListUsers(client)
 if err != nil {
     log.Printf("failed to List Users: %s", err)
     os.Exit(1)
@@ -205,7 +205,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
 
 final StrongDocAccount account = new StrongDocAccount();
-ArrayList<OrgUserInfo> usersList = account.listUsers(client, token);
+ArrayList<OrgUserInfo> usersList = account.listUsers(client);
 for (OrgUserInfo orgUserInfo : usersList) {
     String userID = orgUserInfo.getUserID();
     String username = orgUserInfo.getUsername();
@@ -214,11 +214,6 @@ for (OrgUserInfo orgUserInfo : usersList) {
 ```
 </TabItem>
 </Tabs>
-
-## Authentication
-
-Some functions require you to be an administrator to execute,
-or may grant additional functionality.
 
 ### Promote User
 
@@ -239,7 +234,7 @@ Promotes a user in the organization to the Administrator level.
 ```go
 var userID string // set user's UserID here
 
-ok, err := api.PromoteUser(userID)
+ok, err := api.PromoteUser(client, userID)
 if err != nil {
     log.Printf("failed to Promote User: %s", err)
     os.Exit(1)
@@ -281,7 +276,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 final String userID;
 
 final StrongDocAccount account = new StrongDocAccount();
-final Boolean success = account.promoteUser(client, token, userID);
+final Boolean success = account.promoteUser(client, userID);
 ```
 </TabItem>
 </Tabs>
@@ -306,7 +301,7 @@ Demotes a user in the organization from the Administrator level.
 ```go
 var userID string // set user's UserID here
 
-ok, err := api.DemoteUser(userID)
+ok, err := api.DemoteUser(client, userID)
 if err != nil {
     log.Printf("failed to Demote User: %s", err)
     os.Exit(1)
@@ -350,7 +345,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 final String userID;
 
 final StrongDocAccount account = new StrongDocAccount();
-Boolean success = account.demoteUser(client, token, userID);
+Boolean success = account.demoteUser(client, userID);
 ```
 </TabItem>
 </Tabs>
@@ -376,7 +371,28 @@ Obtain information about the user account.
 <TabItem value="go">
 
 ```go
-To be provided
+accountInfo, err := api.GetAccountInfo(client)
+if err != nil {
+    log.Printf("Failed to get account information: %s", err)
+    os.Exit(1)
+}
+fmt.Println(
+    account.OrgID, 
+    account.OrgAddress, 
+    account.Subscription.Status, 
+    account.Subscription.Type, 
+    account.MultiLevelShare)
+for _, org := range account.SharableOrgs {
+    fmt.Println(org)
+}
+for _, pay := range account.Payments {
+    fmt.Println(
+        pay.Status, 
+        pay.Amount, 
+        pay.BilledAt, 
+        pay.PeriodEnd, 
+        pay.PeriodStart)
+}
 ```
 </TabItem>
 <TabItem value="py">
@@ -389,7 +405,18 @@ To be provided
 <TabItem value="node">
 
 ```javascript
-To be provided
+const account = await accounts.getAccountInfo(client)
+
+console.log("Account Info: ", 
+    account.orgId, 
+    account.orgAddress, 
+    account.subscription, 
+    account.multiLevelShare, 
+    account.sharableOrgs, 
+    account.payments)
+account.payments.map(x => 
+    console.log("Payment: ", x.billedAt, x.periodStart, x.periodEnd, x.amount, x.status))
+account.sharableOrgs.map(x => console.log("Sharable Org: ", x))
 ```
 
 </TabItem>
@@ -404,7 +431,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocAccount;
 import com.google.protobuf.Timestamp;
 
 final StrongDocAccount account = new StrongDocAccount();
-AccountInfoResponse accountInfoResponse = account.getAccountInfo(client, token);
+AccountInfoResponse accountInfoResponse = account.getAccountInfo(client);
 
 final Subscription subscription = accountInfoResponse.getSubscription();
 // Subscription type (AWS Marketplace, Credit Card, etc.)<Paste>

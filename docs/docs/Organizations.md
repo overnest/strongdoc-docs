@@ -22,7 +22,7 @@ If the force parameter is false, removal will fail if there is still data stored
 ```go
 var orgID string // set your orgID here
 
-ok, err := RemoveOrganization(orgID)
+ok, err := RemoveOrganization(client, orgID)
 if err != nil {
     fmt.Printf("Could not Remove Organization: %v", err)
     os.Exit(1)
@@ -68,7 +68,7 @@ final boolean isForce;
 
 final StrongDocAccount account = new StrongDocAccount();
 RemoveOrganizationResponse removeOrgResponse = account.removeOrganization(
-    client, token, isForce);
+    client, isForce);
 
 // Whether the removal was successful
 final boolean isSuccess = removeOrgResponse.isSuccess();

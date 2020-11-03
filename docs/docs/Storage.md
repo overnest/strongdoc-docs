@@ -30,7 +30,7 @@ var err error
 var docID string
 
 fileBytes, err = ioutil.ReadFile(filename)
-docID, err = api.UploadDocument(filename, fileBytes)
+docID, err = api.UploadDocument(client, filename, fileBytes)
 if err != nil {
     log.Printf("Can not upload document: %v", err)
     os.Exit(1)
@@ -93,7 +93,7 @@ File file = new File("path_to_file/" + filename);
 
 final StrongDocDocument document = new StrongDocDocument();
 final byte[] data = Files.readAllBytes(file.toPath());
-final String docID = document.uploadDocument(client, token, filename, data);
+final String docID = document.uploadDocument(client, filename, data);
 ```
 </TabItem>
 </Tabs>
@@ -171,7 +171,7 @@ File file = new File("path_to_file/" + filename);
 
 final StrongDocDocument document = new StrongDocDocument();
 final UploadDocumentResponse uploadDocumentResponse = document.uploadDocumentStream(
-    client, token, filename, new FileInputStream(file));
+    client, filename, new FileInputStream(file));
 
 // The uploaded document ID and size
 final String docID = uploadDocumentResponse.getDocID();
@@ -207,7 +207,7 @@ var docID string // use docID for the file you want
 var rcvdBytes []byte
 var err error
 
-rcvdBytes, err = api.DownloadDocument(docID)
+rcvdBytes, err = api.DownloadDocument(client, docID)
 if err != nil {
     log.Printf("Can not download document: %v", err)
     os.Exit(1)
@@ -251,7 +251,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 final String docID;
 
 final StrongDocDocument document = new StrongDocDocument();
-final byte[] plaintext = document.downloadDocument(client, token, docID);
+final byte[] plaintext = document.downloadDocument(client, docID);
 ```
 </TabItem>
 </Tabs>
@@ -283,7 +283,7 @@ var docID string // set docID of your file here
 var dataStream io.Reader
 var err error
 
-dataStream, err := DownloadDocumentStream(docID)
+dataStream, err := DownloadDocumentStream(client, docID)
 buf := make([]byte, blockSize)
 rcvdBytes := make([]byte,0)
 for err == nil {
@@ -343,11 +343,10 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 
 // Set the document ID
 final String docID;
-// The stream to where the downloaded document will be written to
-ByteArrayOutputStream output = new ByteArrayOutputStream();
 
 final StrongDocDocument document = new StrongDocDocument();
-document.downloadDocumentStream(client, token, docID, output);
+InputStream inputStream = document.downloadDocumentStream(client, docID);
+byte[] documentText = ByteStreams.toByteArray(inputStream);
 ```
 </TabItem>
 </Tabs>
@@ -367,7 +366,7 @@ This function allows you to list the documents that you can access. The return o
 <TabItem value="go">
 
 ```go
-docs, err := ListDocuments()
+docs, err := ListDocuments(client)
 if err != nil {
     log.Printf("err with ListDocuments: %s", err)
     return
@@ -415,7 +414,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 import com.strongsalt.strongdoc.sdk.api.responses.*;
 
 final StrongDocDocument document = new StrongDocDocument();
-ArrayList<DocumentInfo> docInfoList = document.listDocuments(client, token);
+ArrayList<DocumentInfo> docInfoList = document.listDocuments(client);
 for (DocumentInfo docInfo : docInfoList) {
     String docID = docInfo.getDocID();
     String docName = docInfo.getDocName();
@@ -425,9 +424,10 @@ for (DocumentInfo docInfo : docInfoList) {
 </TabItem>
 </Tabs>
 
+<!-- 
 # Get Document Size and Get Index Size
 
-<!-- This function allows you to check the size of your documents and index. 
+This function allows you to check the size of your documents and index. 
 
 ```go
 docs, err := api.GetDocumentsSize(token)
@@ -436,10 +436,10 @@ if err != nil {
     return
 }
 fmt.Printf("The total size of your documents is %d")
-``` -->
+```
 
 > Not implemented yet.
-
+ -->
 
 ## Remove Document
 
@@ -463,7 +463,7 @@ Attempting to remove a nonexistent document throws an error.
 ```go
 var docID string // set docID of the document here
 
-err := RemoveDocument(docID)
+err := RemoveDocument(client, docID)
 if err != nil {
     log.Printf("err with RemoveDocument: %s", err)
     return
@@ -505,7 +505,7 @@ import com.strongsalt.strongdoc.sdk.api.StrongDocDocument;
 final String docID;
 
 final StrongDocDocument document = new StrongDocDocument();
-Boolean success = document.removeDocument(client, token, docID);
+Boolean success = document.removeDocument(client, docID);
 ```
 </TabItem>
 </Tabs>

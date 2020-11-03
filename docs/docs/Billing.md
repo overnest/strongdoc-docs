@@ -19,7 +19,7 @@ List all items of the cost breakdown and also other details such as the billing 
 <TabItem value="go">
 
 ```go
-billingDetails, err := api.GetBillingDetails()
+billingDetails, err := api.GetBillingDetails(client)
 if err != nil {
     log.Printf("failed to get Billing Details: %s", err)
     os.Exit(1)
@@ -65,6 +65,24 @@ More details can be found in the [Python Documentation](https://strongdoc-python
 const { billing } = require('strongdoc-nodejs-sdk');
 
 const billingDetailsRes = await billing.getBillingDetails(client);
+console.log(billingDetailsRes);
+// BillingDetails {
+//   periodStart: 2020-11-02T22:26:36.950Z,
+//   periodEnd: 2020-12-01T00:00:00.000Z,
+//   totalCost: 0,
+//   documents: {
+//     cost: 0,
+//     size: 0.0005738891950654984,
+//     tier: 'Document Storage Free'
+//   },
+//   search: { cost: 0, size: 0, tier: 'Search Index Storage Free' },
+//   traffic: { cost: 0, incoming: 0, outgoing: 0, tier: 'Network Traffic Free' },
+//   frequency: BillingFrequency {
+//     frequency: 1,
+//     validFrom: 2020-11-02T22:26:36.950Z,
+//     validTo: undefined
+//   }
+// }
 ```
 
 </TabItem>
@@ -83,7 +101,7 @@ final Timestamp at = Timestamps.parse("2020-03-29T15:17:59Z");
 
 final StrongDocBilling billing = new StrongDocBilling();
 BillingDetailsResponse billingDetailsResponse = billing.getBillingDetails(
-    client, token, at);
+    client, at);
 
 // The start of current billing period
 final String periodStart = billingDetailsResponse.getPeriodStart();
@@ -140,7 +158,7 @@ Obtain the list of billing frequencies (past, current and future).
 <TabItem value="go">
 
 ```go
-    frequencyList, err := api.GetBillingFrequencyList()
+    frequencyList, err := api.GetBillingFrequencyList(client)
     if err != nil {
         log.Printf("failed to get Billing Frequency List: %s", err)
         os.Exit(1)
@@ -163,7 +181,15 @@ To be provided
 <TabItem value="node">
 
 ```javascript
-To be provided
+const { billing } = require('strongdoc-nodejs-sdk');
+
+const resp = await billing.getBillingFrequencyList(client);
+// BillingFrequency {
+//   frequency: 1,
+//   validFrom: 2020-11-02T22:45:05.034Z,
+//   validTo: undefined
+// }
+billingFrequencyListResp.map(x => console.log("resp: ", x));
 ```
 </TabItem>
 
@@ -182,7 +208,7 @@ import java.util.ArrayList;
 
 final StrongDocBilling billing = new StrongDocBilling();
 BillingFrequencyListResponse billingFrequencyListResponse = 
-    billing.getBillingFrequencyList(client, token);
+    billing.getBillingFrequencyList(client);
 
 ArrayList<BillingFrequency> frequencies = 
     billingFrequencyListResponse.getBillingFrequencyList();
@@ -236,7 +262,22 @@ To be provided
 <TabItem value="node">
 
 ```javascript
-To be provided
+const { billing } = require('strongdoc-nodejs-sdk');
+
+// billing.TimeInterval = {
+//   UNDEFINED: 0,
+//   MONTHLY: 1,
+//   YEARLY: 2
+// };
+const resp = await billing.setNextBillingFrequency(client, 
+    billing.TimeInterval.MONTHLY, new Date());
+// setNextBillingFrequencyResp:  
+//   BillingFrequency {
+//      frequency: 1, 
+//      validFrom: Mon Nov 02 2020 17:21:16 GMT-0800 (Pacific Standard Time), 
+//      validTo: undefined
+//   }
+console.log("setNextBillingFrequencyResp: ", resp);
 ```
 </TabItem>
 
@@ -256,7 +297,7 @@ final Billing.TimeInterval frequency = Billing.TimeInterval.MONTHLY;
 
 final StrongDocBilling billing = new StrongDocBilling();
 NextBillingFrequencyResponse nextBillingFrequencyResponse = 
-    billing.setNextBillingFrequency(client, token, frequency, validFrom);
+    billing.setNextBillingFrequency(client, frequency, validFrom);
 
 BillingFrequency nbf = nextBillingFrequencyResponse.getNextBillingFrequency();
 
@@ -307,7 +348,15 @@ To be provided
 <TabItem value="node">
 
 ```javascript
-To be provided
+const { billing } = require('strongdoc-nodejs-sdk');
+
+const resp = await billing.getLargeTraffic(client, new Date());
+// getLargeTrafficResp:  {
+//   largeTraffic: [],
+//   periodStart: 2020-11-02T23:46:42.001Z,
+//   periodEnd: 2020-12-01T00:00:00.000Z
+// }
+console.log("getLargeTrafficResp: ", resp);
 ```
 </TabItem>
 
@@ -328,7 +377,7 @@ import java.util.ArrayList;
 final Timestamp at = Timestamps.parse("2020-03-29T15:17:59Z");
 
 final StrongDocBilling billing = new StrongDocBilling();
-LargeTrafficResponse largeTrafficResponse = billing.getLargeTraffic(client, token, at);
+LargeTrafficResponse largeTrafficResponse = billing.getLargeTraffic(client, at);
 
 // Start of the requested billing period
 final String periodStart = largeTrafficResponse.getPeriodStart();
