@@ -21,7 +21,7 @@ that you only share documents with users that you trust.
 <TabItem value="go">
 
 ```go
-ok, err := ShareDocument(client, docID, otherUserID)
+ok, err := api.ShareDocument(client, docID, otherUserID)
 if err != nil {
     fmt.Printf("Could not share: %v", err)
     os.Exit(1)
@@ -91,7 +91,7 @@ This allows you to unshare documents previously shared.
 <TabItem value="go">
 
 ```go
-ok, err := UnshareDocument(client, docID, otherUserID)
+ok, err := api.UnshareDocument(client, docID, otherUserID)
 if err != nil {
     fmt.Printf("Could not unshare: %v", err)
     os.Exit(1)
@@ -160,7 +160,7 @@ administrators must first add those organizations to a whitelist with this funct
 <TabItem value="go">
 
 ```go
-ok, err := AddSharableOrg(client, orgID)
+ok, err := api.AddSharableOrg(client, orgID)
 if err != nil {
     fmt.Printf("Could not Add Sharable Organization: %v", err)
     os.Exit(1)
@@ -224,7 +224,7 @@ Administrators may also remove organizations from the whitelist with `RemoveShar
 <TabItem value="go">
 
 ```go
-ok, err := RemoveSharableOrg(client, orgID)
+ok, err := api.RemoveSharableOrg(client, orgID)
 if err != nil {
     fmt.Printf("Could not Remove Sharable Organization: %v", err)
     os.Exit(1)
@@ -288,7 +288,7 @@ Updates your organization's multi-level sharing settings.
 <TabItem value="go">
 
 ```go
-ok, err := SetMultiLevelSharing(client, "true")
+ok, err := api.SetMultiLevelSharing(client, "true")
 if err != nil {
     fmt.Printf("Could not Set Multi-Level Sharing: %v", err)
     os.Exit(1)

@@ -19,7 +19,7 @@ as a string.
 ```go
 var config string
 
-config, err = GetConfiguration(token)
+config, err = api.GetConfiguration(token)
 if err != nil {
     log.Printf("failed to get Configuration: %s", err)
     os.Exit(1)

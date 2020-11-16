@@ -22,7 +22,7 @@ If the force parameter is false, removal will fail if there is still data stored
 ```go
 var orgID string // set your orgID here
 
-ok, err := RemoveOrganization(client, orgID)
+ok, err := api.RemoveOrganization(client, orgID)
 if err != nil {
     fmt.Printf("Could not Remove Organization: %v", err)
     os.Exit(1)

@@ -283,7 +283,7 @@ var docID string // set docID of your file here
 var dataStream io.Reader
 var err error
 
-dataStream, err := DownloadDocumentStream(client, docID)
+dataStream, err := api.DownloadDocumentStream(client, docID)
 buf := make([]byte, blockSize)
 rcvdBytes := make([]byte,0)
 for err == nil {
@@ -366,7 +366,7 @@ This function allows you to list the documents that you can access. The return o
 <TabItem value="go">
 
 ```go
-docs, err := ListDocuments(client)
+docs, err := api.ListDocuments(client)
 if err != nil {
     log.Printf("err with ListDocuments: %s", err)
     return
@@ -463,7 +463,7 @@ Attempting to remove a nonexistent document throws an error.
 ```go
 var docID string // set docID of the document here
 
-err := RemoveDocument(client, docID)
+err := api.RemoveDocument(client, docID)
 if err != nil {
     log.Printf("err with RemoveDocument: %s", err)
     return
