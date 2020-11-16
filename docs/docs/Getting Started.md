@@ -34,7 +34,7 @@ Then, import it at the top of your files:
 ```go
 import (
     // other imports
-    "github.com/overnest/strongdoc-go-sdk/client"
+    sdc "github.com/overnest/strongdoc-go-sdk/client"
     "github.com/overnest/strongdoc-go-sdk/api"
     // even more imports
 )
@@ -45,7 +45,7 @@ The user can initialize a singleton StrongDoc client as such:
 ```go
     // client.DEFAULT points to the default production StrongDoc service endpoint
     // client.SANDBOX points to a sandbox instance for testing purposes
-	sdc, err = client.InitStrongDocClient(client.DEFAULT, false)
+	client, err = sdc.InitStrongDocClient(client.DEFAULT, false)
 	if err != nil {
         log.Printf("failed to initialize StrongDoc client: %s", err)
         os.Exit(1)
@@ -55,7 +55,7 @@ The user can initialize a singleton StrongDoc client as such:
 Note that since this is a singleton, and the resulting client can be retrieved as such:
 
 ```go
-	sdc, err = client.GetStrongDocClient()
+	client, err = sdc.GetStrongDocClient()
 	if err != nil {
         log.Printf("Can not obtain singleton StrongDocClient: %s", err)
         os.Exit(1)
